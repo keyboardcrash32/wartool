@@ -18,17 +18,19 @@
 #ifndef CIMGUIMGR_H_INCLUDED
 #define CIMGUIMGR_H_INCLUDED
 
+#include <windows.h>
+#include <gl/GL.h>
 #include "backends/imgui_impl_win32.h"
 #include "backends/imgui_impl_opengl2.h"
-#include <windows.h>
 
 class CImguiMgr
 {
 public:
-    CImguiMgr(HWND hWnd);
+    CImguiMgr();
     ~CImguiMgr();
 
 public:
+    void Init(HWND hWnd);
     void Draw();
 };
 

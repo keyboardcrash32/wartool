@@ -7,18 +7,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wartool", "wartool.vcxproj"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3DEF9951-1DD0-4D0E-A392-93C6C4DC383C}.Debug|x64.ActiveCfg = Debug|x64
-		{3DEF9951-1DD0-4D0E-A392-93C6C4DC383C}.Debug|x64.Build.0 = Debug|x64
 		{3DEF9951-1DD0-4D0E-A392-93C6C4DC383C}.Debug|x86.ActiveCfg = Debug|Win32
 		{3DEF9951-1DD0-4D0E-A392-93C6C4DC383C}.Debug|x86.Build.0 = Debug|Win32
-		{3DEF9951-1DD0-4D0E-A392-93C6C4DC383C}.Release|x64.ActiveCfg = Release|x64
-		{3DEF9951-1DD0-4D0E-A392-93C6C4DC383C}.Release|x64.Build.0 = Release|x64
 		{3DEF9951-1DD0-4D0E-A392-93C6C4DC383C}.Release|x86.ActiveCfg = Release|Win32
 		{3DEF9951-1DD0-4D0E-A392-93C6C4DC383C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection

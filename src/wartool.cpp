@@ -1,17 +1,17 @@
 #include "wartool.h"
 #include "CImguiMgr.h"
 
-_wglSwapBuffers ORIG_wglSwapBuffers = NULL;
-HANDLE g_lpOpenGL32 = NULL;
+_wglSwapLayerBuffers ORIG_wglSwapLayerBuffers = NULL;
+void* g_lpOpenGL32;
 CImguiMgr gImGui;
 HWND gHwnd;
 
-_wglSwapBuffers GetSwapBuffersAddr()
+_wglSwapLayerBuffers GetSwapLayerBuffersAddr()
 {
-	return reinterpret_cast<_wglSwapBuffers>(GetProcAddress(LoadLibrary(TEXT("OpenGL32.dll")), "wglSwapBuffers"));
+	return reinterpret_cast<_wglSwapLayerBuffers>(GetProcAddress(LoadLibrary(TEXT("OpenGL32.dll")), "wglSwapLayerBuffers"));
 }
 
-void HOOKED_wglSwapBuffers(HDC a1)
+int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
 {
     static bool initialized = false;
 
@@ -23,7 +23,9 @@ void HOOKED_wglSwapBuffers(HDC a1)
         initialized = true;
     }
 
-    gImGui.Draw();
+    gImGui.Draw(); // TODO: fix black screen - keyboardcrash
+
+    return ORIG_wglSwapLayerBuffers(a1, a2);
 }
 
 void HookOpenGL()
@@ -32,12 +34,12 @@ void HookOpenGL()
     if (!g_lpOpenGL32)
         return;
 
-    ORIG_wglSwapBuffers = GetSwapBuffersAddr();
+    ORIG_wglSwapLayerBuffers = GetSwapLayerBuffersAddr();
 	
     int status;
 
-    Find(OpenGL32, wglSwapBuffers);
-	CreateHook(OpenGL32, wglSwapBuffers);
+    Find(OpenGL32, wglSwapLayerBuffers);
+	CreateHook(OpenGL32, wglSwapLayerBuffers);
 	MH_EnableHook(MH_ALL_HOOKS);
 }
 
@@ -49,13 +51,22 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
         return FALSE;
     }
 
-    MH_STATUS status = MH_Initialize();
-    if (status != MH_OK)
+    if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
-        return FALSE;
-    }
+#if 0
+        AllocConsole();
+        freopen("CONOUT$", "w", stdout);
+#endif
 
-    HookOpenGL();
+        MH_STATUS status = MH_Initialize();
+        if (status != MH_OK)
+        {
+            printf("MH_Initialize failed: %s\n", MH_StatusToString(status));
+            return FALSE;
+        }
+
+        HookOpenGL();
+    }
 
     return TRUE;
 }

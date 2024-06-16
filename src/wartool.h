@@ -22,7 +22,7 @@
 #include "MinHook.h"
 #include <stdio.h>
 
-typedef int(__stdcall* _wglSwapBuffers)(HDC);
+typedef int(__stdcall* _wglSwapLayerBuffers)(HDC, UINT);
 
 #define CreateHook(lib, func_name) \
         status = MH_CreateHook(ORIG_##func_name, HOOKED_##func_name, reinterpret_cast<void**>(&ORIG_##func_name)); \
@@ -32,8 +32,8 @@ typedef int(__stdcall* _wglSwapBuffers)(HDC);
 
 #define Find(lib, func_name) \
     if ((ORIG_##func_name = reinterpret_cast<_##func_name>(GetProcAddress(reinterpret_cast<HMODULE>(g_lp##lib), #func_name)))) \
-        printf("[client dll] Found " #func_name " at %p.\n", ORIG_##func_name); \
+        printf("[game dll] Found " #func_name " at %p.\n", ORIG_##func_name); \
     else \
-        printf("[client dll] Could not find " #func_name ".\n");
+        printf("[game dll] Could not find " #func_name ".\n");
 
 #endif // WARTOOL_H_INCLUDED

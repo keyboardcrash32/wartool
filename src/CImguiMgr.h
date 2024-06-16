@@ -22,6 +22,7 @@
 #include <gl/GL.h>
 #include "backends/imgui_impl_win32.h"
 #include "backends/imgui_impl_opengl2.h"
+#include <stdio.h>
 
 class CImguiMgr
 {

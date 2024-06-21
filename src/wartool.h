@@ -23,6 +23,7 @@
 #include <stdio.h>
 
 typedef int(__stdcall* _wglSwapLayerBuffers)(HDC, UINT);
+typedef LRESULT(APIENTRY* _WndProc)(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #define CreateHook(lib, func_name) \
         status = MH_CreateHook(ORIG_##func_name, HOOKED_##func_name, reinterpret_cast<void**>(&ORIG_##func_name)); \

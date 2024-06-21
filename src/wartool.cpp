@@ -2,9 +2,17 @@
 #include "CImguiMgr.h"
 
 _wglSwapLayerBuffers ORIG_wglSwapLayerBuffers = NULL;
+_WndProc ORIG_WndProc = NULL;
 void* g_lpOpenGL32;
 CImguiMgr gImGui;
 HWND gHwnd;
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+inline long __stdcall HOOKED_WndProc(const HWND a1, unsigned int a2, unsigned a3, long a4)
+{
+	ImGui_ImplWin32_WndProcHandler(a1, a2, a3, a4);
+	return CallWindowProcA(ORIG_WndProc, a1, a2, a3, a4);
+}
 
 _wglSwapLayerBuffers GetSwapLayerBuffersAddr()
 {
@@ -18,6 +26,9 @@ int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
     if (!initialized)
     {
         gHwnd = WindowFromDC(a1);
+
+        ORIG_WndProc = ORIG_WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrA(gHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(HOOKED_WndProc)));;
+
         gImGui.Init(gHwnd);
 
         initialized = true;
@@ -48,12 +59,16 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     if (ul_reason_for_call == DLL_PROCESS_DETACH)
     {
         MH_Uninitialize();
-        return FALSE;
+		ImGui_ImplOpenGL2_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+		ImGui::DestroyContext();
+
+        return TRUE;
     }
 
     if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
-#if 0
+#if 1
         AllocConsole();
         freopen("CONOUT$", "w", stdout);
 #endif

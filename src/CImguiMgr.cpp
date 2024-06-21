@@ -16,7 +16,7 @@ void CImguiMgr::Init(HWND hWnd)
 	ImGui::CreateContext();
 
 	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+	//io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 
 	ImGui_ImplOpenGL2_Init();
 	ImGui_ImplWin32_Init(hWnd);
@@ -31,10 +31,11 @@ void CImguiMgr::Draw()
 	ImGui::NewFrame();
 
 	// TODO: actually draw smth useful - keyboardcrash
-	//ImGui::Begin("swag window");
-	//ImGui::Button("dayyymmm");
-	//ImGui::End();
+	ImGui::Begin("swag window");
+	ImGui::Button("dayyymmm");
+	ImGui::End();
 
+	ImGui::EndFrame();
 	glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());

@@ -46,8 +46,6 @@ int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
         initialized = true;
     }
 
-    //gImGui.Draw(); // TODO: fix black screen - keyboardcrash
-
     gImGui.End();
 
     return ORIG_wglSwapLayerBuffers(a1, a2);
@@ -57,7 +55,7 @@ void __stdcall HOOKED_glClear(GLbitfield a1)
 {
 	static bool initialized = false;
 
-	gImGui.Draw(); // TODO: fix black screen - keyboardcrash
+	gImGui.Draw();
 
     ORIG_glClear(a1);
 }

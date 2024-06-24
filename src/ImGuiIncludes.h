@@ -15,28 +15,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef CIMGUIMGR_H_INCLUDED
-#define CIMGUIMGR_H_INCLUDED
+#ifndef IMGUIINCLUDES_H_INCLUDED
+#define IMGUIINCLUDES_H_INCLUDED
 
-#include <windows.h>
-#include <gl/GL.h>
-#include "ImGuiIncludes.h"
-#include "CMainMenu.h"
+#include "backends/imgui_impl_win32.h"
+#include "backends/imgui_impl_opengl3.h"
 
-class CImguiMgr
-{
-public:
-    CImguiMgr();
-    ~CImguiMgr();
-
-public:
-    void Init(HWND hWnd);
-    void Draw();
-    void End();
-
-private:
-    bool m_drawCalled = false;
-    CMainMenu m_mainMenu;
-};
-
-#endif // CIMGUIMGR_H_INCLUDED
+#endif // IMGUIINCLUDES_H_INCLUDED

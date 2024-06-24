@@ -35,7 +35,10 @@
     <ClInclude Include="..\external\MinHook\hde\table64.h" />
     <ClInclude Include="..\external\MinHook\MinHook.h" />
     <ClInclude Include="..\external\MinHook\trampoline.h" />
+    <ClInclude Include="CImguiMenu.h" />
     <ClInclude Include="CImguiMgr.h" />
+    <ClInclude Include="CMainMenu.h" />
+    <ClInclude Include="ImGuiIncludes.h" />
     <ClInclude Include="wartool.h" />
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +54,9 @@
     <ClCompile Include="..\external\MinHook\hde\hde64.c" />
     <ClCompile Include="..\external\MinHook\hook.c" />
     <ClCompile Include="..\external\MinHook\trampoline.c" />
+    <ClCompile Include="CImguiMenu.cpp" />
     <ClCompile Include="CImguiMgr.cpp" />
+    <ClCompile Include="CMainMenu.cpp" />
     <ClCompile Include="wartool.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

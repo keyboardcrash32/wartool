@@ -30,10 +30,7 @@ void CImguiMgr::Draw()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
 
-	// TODO: actually draw smth useful - keyboardcrash
-	ImGui::Begin("swag window");
-	ImGui::Button("dayyymmm");
-	ImGui::End();
+	m_mainMenu.Draw();
 
 	/*glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 	ImGui::Render();

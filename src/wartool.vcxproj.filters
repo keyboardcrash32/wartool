@@ -75,6 +75,15 @@
     <ClInclude Include="..\external\imgui\backends\imgui_impl_opengl3.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="CMainMenu.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiIncludes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CImguiMenu.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\imgui\imgui.cpp">
@@ -118,6 +127,12 @@
     </ClCompile>
     <ClCompile Include="..\external\imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CImguiMenu.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

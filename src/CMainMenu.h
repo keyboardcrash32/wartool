@@ -15,28 +15,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef CIMGUIMGR_H_INCLUDED
-#define CIMGUIMGR_H_INCLUDED
+#ifndef CMAINMENU_H_INCLUDED
+#define CMAINMENU_H_INCLUDED
 
-#include <windows.h>
-#include <gl/GL.h>
-#include "ImGuiIncludes.h"
-#include "CMainMenu.h"
+#include "CImguiMenu.h"
 
-class CImguiMgr
+class CMainMenu : public CImguiMenu
 {
 public:
-    CImguiMgr();
-    ~CImguiMgr();
+    CMainMenu();
+    ~CMainMenu();
 
 public:
-    void Init(HWND hWnd);
-    void Draw();
-    void End();
-
-private:
-    bool m_drawCalled = false;
-    CMainMenu m_mainMenu;
+    void Draw() override;
 };
 
-#endif // CIMGUIMGR_H_INCLUDED
+#endif // CMAINMENU_H_INCLUDED

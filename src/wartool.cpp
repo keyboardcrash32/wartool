@@ -2,6 +2,8 @@
 #include "CImguiMgr.h"
 
 _wglSwapLayerBuffers ORIG_wglSwapLayerBuffers = NULL;
+_wglGetProcAddress ORIG_wglGetProcAddress = NULL;
+_glClear ORIG_glClear = NULL;
 _WndProc ORIG_WndProc = NULL;
 void* g_lpOpenGL32;
 CImguiMgr gImGui;
@@ -19,6 +21,16 @@ _wglSwapLayerBuffers GetSwapLayerBuffersAddr()
 	return reinterpret_cast<_wglSwapLayerBuffers>(GetProcAddress(LoadLibrary(TEXT("OpenGL32.dll")), "wglSwapLayerBuffers"));
 }
 
+_wglGetProcAddress GetWGLProcAddress()
+{
+	return reinterpret_cast<_wglGetProcAddress>(GetProcAddress(LoadLibrary(TEXT("OpenGL32.dll")), "wglGetProcAddress"));
+}
+
+_glClear GetGLClearAddr()
+{
+	return reinterpret_cast<_glClear>(GetProcAddress(LoadLibrary(TEXT("OpenGL32.dll")), "glClear"));
+}
+
 int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
 {
     static bool initialized = false;
@@ -27,16 +39,33 @@ int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
     {
         gHwnd = WindowFromDC(a1);
 
-        ORIG_WndProc = ORIG_WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrA(gHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(HOOKED_WndProc)));;
+        ORIG_WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrA(gHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(HOOKED_WndProc)));;
 
         gImGui.Init(gHwnd);
 
         initialized = true;
     }
 
-    gImGui.Draw(); // TODO: fix black screen - keyboardcrash
+    //gImGui.Draw(); // TODO: fix black screen - keyboardcrash
+
+    gImGui.End();
 
     return ORIG_wglSwapLayerBuffers(a1, a2);
+}
+
+void __stdcall HOOKED_glClear(GLbitfield a1)
+{
+	static bool initialized = false;
+
+	gImGui.Draw(); // TODO: fix black screen - keyboardcrash
+
+    ORIG_glClear(a1);
+}
+
+PROC __stdcall HOOKED_wglGetProcAddress(LPCSTR a1)
+{
+    printf("HOOKED_wglGetProcAddress: %s\n", a1);
+    return ORIG_wglGetProcAddress(a1);
 }
 
 void HookOpenGL()
@@ -46,11 +75,16 @@ void HookOpenGL()
         return;
 
     ORIG_wglSwapLayerBuffers = GetSwapLayerBuffersAddr();
-	
+    ORIG_glClear = GetGLClearAddr();
+
     int status;
 
+	Find(OpenGL32, glClear);
+	CreateHook(OpenGL32, glClear);
     Find(OpenGL32, wglSwapLayerBuffers);
 	CreateHook(OpenGL32, wglSwapLayerBuffers);
+	Find(OpenGL32, wglGetProcAddress);
+	CreateHook(OpenGL32, wglGetProcAddress);
 	MH_EnableHook(MH_ALL_HOOKS);
 }
 
@@ -59,7 +93,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     if (ul_reason_for_call == DLL_PROCESS_DETACH)
     {
         MH_Uninitialize();
-		ImGui_ImplOpenGL2_Shutdown();
+		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
 
@@ -71,7 +105,10 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 #if 1
         AllocConsole();
         freopen("CONOUT$", "w", stdout);
+        printf("Console allocated\n");
 #endif
+
+        DisableThreadLibraryCalls(hModule);
 
         MH_STATUS status = MH_Initialize();
         if (status != MH_OK)

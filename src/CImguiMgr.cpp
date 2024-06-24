@@ -16,18 +16,18 @@ void CImguiMgr::Init(HWND hWnd)
 	ImGui::CreateContext();
 
 	ImGuiIO& io = ImGui::GetIO();
-	//io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 
-	ImGui_ImplOpenGL2_Init();
+	ImGui_ImplOpenGL3_Init();
 	ImGui_ImplWin32_Init(hWnd);
 
-	//ImGui::StyleColorsDark();
+	ImGui::StyleColorsDark();
 }
 
 void CImguiMgr::Draw()
 {
 	ImGui_ImplWin32_NewFrame();
-	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
 
 	// TODO: actually draw smth useful - keyboardcrash
@@ -35,8 +35,21 @@ void CImguiMgr::Draw()
 	ImGui::Button("dayyymmm");
 	ImGui::End();
 
-	ImGui::EndFrame();
-	glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
+	/*glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());*/
+	m_drawCalled = true;
+}
+
+void CImguiMgr::End()
+{
+	if (m_drawCalled)
+	{
+		ImGui::EndFrame();
+		glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		m_drawCalled = false;
+	}
 }

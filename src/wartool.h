@@ -21,8 +21,11 @@
 #include <windows.h>
 #include "MinHook.h"
 #include <stdio.h>
+#include <gl/gl.h>
 
 typedef int(__stdcall* _wglSwapLayerBuffers)(HDC, UINT);
+typedef PROC(__stdcall* _wglGetProcAddress)(LPCSTR);
+typedef void(__stdcall* _glClear)(GLbitfield);
 typedef LRESULT(APIENTRY* _WndProc)(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #define CreateHook(lib, func_name) \

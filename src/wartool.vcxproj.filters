@@ -39,9 +39,6 @@
     <ClInclude Include="..\external\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\external\imgui\backends\imgui_impl_opengl2.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
     <ClInclude Include="..\external\imgui\backends\imgui_impl_win32.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -75,6 +72,9 @@
     <ClInclude Include="wartool.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\external\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\imgui\imgui.cpp">
@@ -90,9 +90,6 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\external\imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\external\imgui\backends\imgui_impl_opengl2.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\external\imgui\backends\imgui_impl_win32.cpp">
@@ -118,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="wartool.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

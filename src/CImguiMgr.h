@@ -21,7 +21,8 @@
 #include <windows.h>
 #include <gl/GL.h>
 #include "backends/imgui_impl_win32.h"
-#include "backends/imgui_impl_opengl2.h"
+//#include "backends/imgui_impl_opengl2.h"
+#include "backends/imgui_impl_opengl3.h"
 #include <stdio.h>
 
 class CImguiMgr
@@ -33,6 +34,10 @@ public:
 public:
     void Init(HWND hWnd);
     void Draw();
+    void End();
+
+private:
+    bool m_drawCalled = false;
 };
 
 #endif // CIMGUIMGR_H_INCLUDED

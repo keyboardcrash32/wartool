@@ -29,7 +29,7 @@ void CImguiMgr::Draw()
 	ImGui_ImplWin32_NewFrame();
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
-
+	
 	m_mainMenu.Draw();
 
 	/*glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
@@ -43,6 +43,7 @@ void CImguiMgr::End()
 	if (m_drawCalled)
 	{
 		ImGui::EndFrame();
+
 		glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

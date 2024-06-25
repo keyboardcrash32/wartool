@@ -53,16 +53,13 @@ int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
 
 void __stdcall HOOKED_glClear(GLbitfield a1)
 {
-	static bool initialized = false;
-
 	gImGui.Draw();
-
     ORIG_glClear(a1);
 }
 
-PROC __stdcall HOOKED_wglGetProcAddress(LPCSTR a1)
+PROC __stdcall HOOKED_wglGetProcAddress(LPCSTR a1) // just for logging
 {
-    printf("HOOKED_wglGetProcAddress: %s\n", a1);
+    printf("[OpenGL32] HOOKED_wglGetProcAddress: %s\n", a1);
     return ORIG_wglGetProcAddress(a1);
 }
 

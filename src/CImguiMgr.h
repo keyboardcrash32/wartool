@@ -36,6 +36,7 @@ public:
 
 private:
     bool m_drawCalled = false;
+    bool m_showMainMenu = false;
     CMainMenu m_mainMenu;
 };
 

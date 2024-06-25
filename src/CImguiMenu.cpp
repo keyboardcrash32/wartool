@@ -7,7 +7,7 @@ CImguiMenu::CImguiMenu(std::string menuName) : m_menuName(menuName)
 
 CImguiMenu::~CImguiMenu()
 {
-	printf("%s Imgui Menu deleted\n");
+	printf("%s Imgui Menu deleted\n", m_menuName.c_str());
 }
 
 void CImguiMenu::Draw()

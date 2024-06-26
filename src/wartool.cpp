@@ -93,13 +93,11 @@ BOOL WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID lpvReserved)
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
-
-		return TRUE;
 	}
 
 	if (fdwReason == DLL_PROCESS_ATTACH)
 	{
-#if 1
+#if _DEBUG
 		AllocConsole();
 		freopen("CONOUT$", "w", stdout);
 		printf("Console allocated\n");

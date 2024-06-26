@@ -19,6 +19,7 @@
 #define CMAINMENU_H_INCLUDED
 
 #include "CImguiMenu.h"
+#include <windows.h>
 
 class CMainMenu : public CImguiMenu
 {

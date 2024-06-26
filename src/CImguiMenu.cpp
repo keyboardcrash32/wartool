@@ -10,6 +10,11 @@ CImguiMenu::~CImguiMenu()
 	printf("%s Imgui Menu deleted\n", m_menuName.c_str());
 }
 
+void CImguiMenu::Init()
+{
+
+}
+
 void CImguiMenu::Draw()
 {
 

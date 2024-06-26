@@ -45,15 +45,28 @@ char* GetGameBuildVersion()
 		}
 		delete[] verData;
 	}
+
+	return const_cast<char*>("Unknown");
+}
+
+void CMainMenu::Init()
+{
+	m_gameBuildVersion = GetGameBuildVersion();
+	printf("Warcraft build version: %s", m_gameBuildVersion.c_str());
 }
 
 void CMainMenu::Draw()
 {
     ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 	ImGui::Begin("WarTool Main Menu");
+	
+	ImGui::Text("Warcraft build version: %s", m_gameBuildVersion.c_str());
 
-	char* GameBuildVersion = GetGameBuildVersion();
-	ImGui::Text("Warcraft build version: %s", GameBuildVersion);
+	ImGui::Checkbox("Lock cursor in a window (NOT IMPLEMENTED)", &m_lockCursor);
+	ImGui::Checkbox("Save screenshots in .png (NOT IMPLEMENTED)", &m_PNGScreenshots);
+	ImGui::Checkbox("MemHack protection (NOT IMPLEMENTED)", &m_MemHackProtection);
+	ImGui::Checkbox("Show FPS (NOT IMPLEMENTED)", &m_showFPS);
+	ImGui::Checkbox("Fix 8MB map size limitation (NOT IMPLEMENTED)", &m_8MBSizeFix);
 
 	ImGui::End();
     ImGui::PopStyleColor();

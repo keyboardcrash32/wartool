@@ -28,7 +28,16 @@ public:
     ~CMainMenu();
 
 public:
+    void Init() override;
     void Draw() override;
+
+private:
+    bool m_lockCursor = false;
+    bool m_PNGScreenshots = false;
+    bool m_8MBSizeFix = false;
+    bool m_MemHackProtection = false;
+    bool m_showFPS = false;
+    std::string m_gameBuildVersion;
 };
 
 #endif // CMAINMENU_H_INCLUDED

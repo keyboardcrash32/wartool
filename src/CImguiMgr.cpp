@@ -22,6 +22,8 @@ void CImguiMgr::Init(HWND hWnd)
 	ImGui_ImplWin32_Init(hWnd);
 
 	ImGui::StyleColorsDark();
+
+	m_mainMenu.Init();
 }
 
 void CImguiMgr::Draw()

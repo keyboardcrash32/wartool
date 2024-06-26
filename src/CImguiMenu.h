@@ -29,6 +29,7 @@ public:
     ~CImguiMenu();
 
 public:
+    virtual void Init();
     virtual void Draw();
 
 protected:

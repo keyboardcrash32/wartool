@@ -23,7 +23,7 @@ void CImguiMgr::Init(HWND hWnd)
 
 	ImGui::StyleColorsDark();
 
-	m_mainMenu.Init();
+	mainMenu.Init();
 }
 
 void CImguiMgr::Draw()
@@ -36,7 +36,7 @@ void CImguiMgr::Draw()
 		m_showMainMenu = !m_showMainMenu;
 
 	if(m_showMainMenu)
-		m_mainMenu.Draw();
+		mainMenu.Draw();
 
 	/*glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 	ImGui::Render();
@@ -46,7 +46,7 @@ void CImguiMgr::Draw()
 
 void CImguiMgr::End()
 {
-	if (m_drawCalled)
+	if (m_drawCalled) // just to prevent annoying errors
 	{
 		ImGui::EndFrame();
 

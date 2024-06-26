@@ -34,10 +34,11 @@ public:
     void Draw();
     void End();
 
+    CMainMenu mainMenu;
+
 private:
     bool m_drawCalled = false;
     bool m_showMainMenu = false;
-    CMainMenu m_mainMenu;
 };
 
 #endif // CIMGUIMGR_H_INCLUDED

@@ -84,6 +84,9 @@
     <ClInclude Include="CImguiMenu.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="CLockCursor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\imgui\imgui.cpp">
@@ -132,6 +135,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CImguiMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLockCursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

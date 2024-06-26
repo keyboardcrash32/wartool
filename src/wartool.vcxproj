@@ -37,6 +37,7 @@
     <ClInclude Include="..\external\MinHook\trampoline.h" />
     <ClInclude Include="CImguiMenu.h" />
     <ClInclude Include="CImguiMgr.h" />
+    <ClInclude Include="CLockCursor.h" />
     <ClInclude Include="CMainMenu.h" />
     <ClInclude Include="ImGuiIncludes.h" />
     <ClInclude Include="wartool.h" />
@@ -56,6 +57,7 @@
     <ClCompile Include="..\external\MinHook\trampoline.c" />
     <ClCompile Include="CImguiMenu.cpp" />
     <ClCompile Include="CImguiMgr.cpp" />
+    <ClCompile Include="CLockCursor.cpp" />
     <ClCompile Include="CMainMenu.cpp" />
     <ClCompile Include="wartool.cpp" />
   </ItemGroup>

@@ -15,30 +15,27 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef CMAINMENU_H_INCLUDED
-#define CMAINMENU_H_INCLUDED
+#ifndef CLOCKCURSOR_H_INCLUDED
+#define CLOCKCURSOR_H_INCLUDED
 
-#include "CImguiMenu.h"
 #include <windows.h>
 
-class CMainMenu : public CImguiMenu
+class CLockCursor
 {
 public:
-    CMainMenu();
-    ~CMainMenu();
+    CLockCursor();
+    ~CLockCursor();
 
 public:
-    void Init() override;
-    void Draw() override;
+    void SetWindow(HWND hwnd);
+    void Lock();
+    void Unlock();
 
-	bool lockCursor = false;
-	bool PNGScreenshots = false;
-	bool Fix8MBSize = false;
-	bool MemHackProtection = false;
-	bool showFPS = false;
+    bool cursorLocked = false;
 
 private:
-    std::string m_gameBuildVersion;
+    HWND m_hwnd;
+    RECT m_oldRect;
 };
 
-#endif // CMAINMENU_H_INCLUDED
+#endif // CLOCKCURSOR_H_INCLUDED

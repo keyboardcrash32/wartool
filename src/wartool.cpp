@@ -1,5 +1,6 @@
 #include "wartool.h"
 #include "CImguiMgr.h"
+#include "CLockCursor.h"
 
 _wglSwapLayerBuffers ORIG_wglSwapLayerBuffers = NULL;
 _wglGetProcAddress ORIG_wglGetProcAddress = NULL;
@@ -7,6 +8,7 @@ _glClear ORIG_glClear = NULL;
 _WndProc ORIG_WndProc = NULL;
 void* g_lpOpenGL32;
 CImguiMgr gImGui;
+CLockCursor gLockCursor;
 HWND gHwnd;
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -42,11 +44,19 @@ int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
         ORIG_WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrA(gHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(HOOKED_WndProc)));;
 
         gImGui.Init(gHwnd);
+		gLockCursor.SetWindow(gHwnd);
 
         initialized = true;
     }
 
     gImGui.End();
+
+	// TODO: lock only if in the going game - keyboardcrash
+	if (gImGui.mainMenu.lockCursor && !gLockCursor.cursorLocked)
+		gLockCursor.Lock();
+
+	if (!gImGui.mainMenu.lockCursor && gLockCursor.cursorLocked)
+		gLockCursor.Unlock();
 
     return ORIG_wglSwapLayerBuffers(a1, a2);
 }
@@ -54,6 +64,7 @@ int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
 void __stdcall HOOKED_glClear(GLbitfield a1)
 {
 	gImGui.Draw();
+
     ORIG_glClear(a1);
 }
 

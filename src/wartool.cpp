@@ -83,37 +83,39 @@ void HookOpenGL()
 	MH_EnableHook(MH_ALL_HOOKS);
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID lpvReserved)
 {
-    if (ul_reason_for_call == DLL_PROCESS_DETACH)
-    {
-        MH_Uninitialize();
+	if (fdwReason == DLL_PROCESS_DETACH)
+	{
+		if (lpvReserved != nullptr) return TRUE;
+
+		MH_Uninitialize();
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
 
-        return TRUE;
-    }
+		return TRUE;
+	}
 
-    if (ul_reason_for_call == DLL_PROCESS_ATTACH)
-    {
+	if (fdwReason == DLL_PROCESS_ATTACH)
+	{
 #if 1
-        AllocConsole();
-        freopen("CONOUT$", "w", stdout);
-        printf("Console allocated\n");
+		AllocConsole();
+		freopen("CONOUT$", "w", stdout);
+		printf("Console allocated\n");
 #endif
 
-        DisableThreadLibraryCalls(hModule);
+		DisableThreadLibraryCalls(hInstDll);
 
-        MH_STATUS status = MH_Initialize();
-        if (status != MH_OK)
-        {
-            printf("MH_Initialize failed: %s\n", MH_StatusToString(status));
-            return FALSE;
-        }
+		MH_STATUS status = MH_Initialize();
+		if (status != MH_OK)
+		{
+			printf("MH_Initialize failed: %s\n", MH_StatusToString(status));
+			return FALSE;
+		}
 
-        HookOpenGL();
-    }
+		HookOpenGL();
+	}
 
     return TRUE;
 }

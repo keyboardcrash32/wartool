@@ -35,8 +35,11 @@ void CImguiMgr::Draw()
 	if (ImGui::IsKeyPressed(ImGuiKey_Insert))
 		m_showMainMenu = !m_showMainMenu;
 
-	if(m_showMainMenu)
+	if (m_showMainMenu)
 		mainMenu.Draw();
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.MouseDrawCursor = io.WantCaptureMouse;
 
 	/*glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
 	ImGui::Render();

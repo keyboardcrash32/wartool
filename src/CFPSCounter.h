@@ -15,32 +15,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef CIMGUIMGR_H_INCLUDED
-#define CIMGUIMGR_H_INCLUDED
+#ifndef CFPSCOUNTER_H_INCLUDED
+#define CFPSCOUNTER_H_INCLUDED
 
-#include <windows.h>
-#include <gl/GL.h>
-#include "ImGuiIncludes.h"
-#include "CMainMenu.h"
-#include "CFPSCounter.h"
+#include "CImguiMenu.h"
 
-class CImguiMgr
+class CFPSCounter : public CImguiMenu
 {
 public:
-    CImguiMgr();
-    ~CImguiMgr();
+    CFPSCounter();
+    ~CFPSCounter();
 
 public:
-    void Init(HWND hWnd);
-    void Draw();
-    void End();
-
-    CMainMenu mainMenu;
-    CFPSCounter fpsCounter;
-
-private:
-    bool m_drawCalled = false;
-    bool m_showMainMenu = false;
+	void Init() override;
+	void Draw() override;
 };
 
-#endif // CIMGUIMGR_H_INCLUDED
+#endif // CFPSCOUNTER_H_INCLUDED

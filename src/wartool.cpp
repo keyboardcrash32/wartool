@@ -1,6 +1,7 @@
 #include "wartool.h"
 #include "CImguiMgr.h"
 #include "CLockCursor.h"
+#include "CDiscordRPC.h"
 
 _wglSwapLayerBuffers ORIG_wglSwapLayerBuffers = NULL;
 _wglGetProcAddress ORIG_wglGetProcAddress = NULL;
@@ -9,6 +10,7 @@ _WndProc ORIG_WndProc = NULL;
 void* g_lpOpenGL32;
 CImguiMgr gImGui;
 CLockCursor gLockCursor;
+CDiscordRPC gDiscordRPC;
 HWND gHwnd;
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -45,6 +47,9 @@ int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
 
         gImGui.Init(gHwnd);
 		gLockCursor.SetWindow(gHwnd);
+
+		gDiscordRPC.Init();
+		gDiscordRPC.SetGameState(INMENU);
 
         initialized = true;
     }
@@ -104,6 +109,9 @@ BOOL WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID lpvReserved)
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
+		Discord_ClearPresence();
+		Discord_Shutdown();
+		FreeLibraryAndExitThread(hInstDll, NULL);
 	}
 
 	if (fdwReason == DLL_PROCESS_ATTACH)

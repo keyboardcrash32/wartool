@@ -15,32 +15,37 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef CIMGUIMGR_H_INCLUDED
-#define CIMGUIMGR_H_INCLUDED
+#ifndef CDISCORDRPC_H_INCLUDED
+#define CDISCORDRPC_H_INCLUDED
 
-#include <windows.h>
-#include <gl/GL.h>
-#include "ImGuiIncludes.h"
-#include "CMainMenu.h"
-#include "CFPSCounter.h"
+#define APPLICATION_ID "1255488895139709019"
 
-class CImguiMgr
+#include <stdio.h> // for printf
+#include <memory> // for std::unique_ptr
+#include <string>
+#include <windows.h> // for ZeroMemory
+#include "discord_rpc.h"
+
+enum GameStateEnum : int
 {
-public:
-    CImguiMgr();
-    ~CImguiMgr();
-
-public:
-    void Init(HWND hWnd);
-    void Draw();
-    void End();
-
-    CMainMenu mainMenu;
-    CFPSCounter fpsCounter;
-
-private:
-    bool m_drawCalled = false;
-    bool m_showMainMenu = false;
+    INMENU = 0,
+    INGAME = 1,
 };
 
-#endif // CIMGUIMGR_H_INCLUDED
+class CDiscordRPC
+{
+public:
+    CDiscordRPC();
+    ~CDiscordRPC();
+
+public:
+    void Init();
+    void SetGameState(GameStateEnum gameState);
+    void updateDiscordPresence(DiscordRichPresence& discordPresence);
+
+private:
+    DiscordRichPresence m_discordPresence;
+    DiscordEventHandlers m_handlers;
+};
+
+#endif // CDISCORDRPC_H_INCLUDED

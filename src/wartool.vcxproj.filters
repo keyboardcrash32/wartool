@@ -19,6 +19,21 @@
     <Filter Include="MinHook">
       <UniqueIdentifier>{8546ae22-d288-4115-990d-11f68aa9aff3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="discord-rpc">
+      <UniqueIdentifier>{7abdff36-74ae-4144-a24d-31db1db7e38f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="discord-rpc\rapidjson">
+      <UniqueIdentifier>{85e04d33-19ed-4188-b630-e9d1ea2ec265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="discord-rpc\rapidjson\error">
+      <UniqueIdentifier>{8cc85560-d8ec-4711-bbb9-f67424cfdd99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="discord-rpc\rapidjson\internal">
+      <UniqueIdentifier>{a909fd5d-df54-4628-9fc4-891584173e85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="discord-rpc\rapidjson\msinttypes">
+      <UniqueIdentifier>{366b4a73-fcee-47dd-b014-3d7397cdb0e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\external\imgui\imconfig.h">
@@ -87,6 +102,138 @@
     <ClInclude Include="CLockCursor.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="CFPSCounter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CDiscordRPC.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\discord-rpc\backoff.h">
+      <Filter>discord-rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\discord-rpc\connection.h">
+      <Filter>discord-rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\discord-rpc\discord_register.h">
+      <Filter>discord-rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\discord-rpc\discord_rpc.h">
+      <Filter>discord-rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\discord-rpc\msg_queue.h">
+      <Filter>discord-rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\discord-rpc\rpc_connection.h">
+      <Filter>discord-rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\discord-rpc\serialization.h">
+      <Filter>discord-rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\allocators.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\document.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\encodedstream.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\encodings.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\filereadstream.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\filewritestream.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\fwd.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\istreamwrapper.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\memorybuffer.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\memorystream.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\ostreamwrapper.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\pointer.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\prettywriter.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\rapidjson.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\reader.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\schema.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\stream.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\stringbuffer.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\writer.h">
+      <Filter>discord-rpc\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\error\en.h">
+      <Filter>discord-rpc\rapidjson\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\error\error.h">
+      <Filter>discord-rpc\rapidjson\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\biginteger.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\diyfp.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\dtoa.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\ieee754.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\itoa.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\meta.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\pow10.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\regex.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\stack.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\strfunc.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\strtod.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\internal\swap.h">
+      <Filter>discord-rpc\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\msinttypes\inttypes.h">
+      <Filter>discord-rpc\rapidjson\msinttypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\rapidjson\msinttypes\stdint.h">
+      <Filter>discord-rpc\rapidjson\msinttypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\imgui\imgui.cpp">
@@ -139,6 +286,27 @@
     </ClCompile>
     <ClCompile Include="CLockCursor.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CFPSCounter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CDiscordRPC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\discord-rpc\connection_win.cpp">
+      <Filter>discord-rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\discord-rpc\discord_register_win.cpp">
+      <Filter>discord-rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\discord-rpc\discord_rpc.cpp">
+      <Filter>discord-rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\discord-rpc\rpc_connection.cpp">
+      <Filter>discord-rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\discord-rpc\serialization.cpp">
+      <Filter>discord-rpc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

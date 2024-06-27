@@ -89,7 +89,7 @@ void CDiscordRPC::SetGameState(GameStateEnum gameState)
 	
 	m_discordPresence.largeImageKey = "main";
 	m_discordPresence.state = discordDetails.c_str();
-	updateDiscordPresence(m_discordPresence);
-
 	printf("[Discord RPC] Changed the game state to %s\n", discordDetails.c_str());
+	
+	updateDiscordPresence(m_discordPresence);
 }

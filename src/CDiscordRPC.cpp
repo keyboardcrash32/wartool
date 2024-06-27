@@ -44,6 +44,8 @@ void CDiscordRPC::updateDiscordPresence(DiscordRichPresence& discordPresence)
 {
 	Discord_UpdatePresence(&discordPresence);
 	ZeroMemory(&discordPresence, sizeof(discordPresence));
+
+	printf("[Discord RPC] Updated the Discord presence\n");
 }
 
 void CDiscordRPC::Init()
@@ -59,6 +61,7 @@ void CDiscordRPC::Init()
 	m_handlers.joinRequest = handleDiscordJoinRequest;
 
 	Discord_Initialize(APPLICATION_ID, &m_handlers, 1, NULL);
+	printf("[Discord RPC] Discord RPC initialized!\n");
 
 #ifdef DISCORD_DISABLE_IO_THREAD
 	Discord_UpdateConnection();
@@ -87,4 +90,6 @@ void CDiscordRPC::SetGameState(GameStateEnum gameState)
 	m_discordPresence.largeImageKey = "main";
 	m_discordPresence.state = discordDetails.c_str();
 	updateDiscordPresence(m_discordPresence);
+
+	printf("[Discord RPC] Changed the game state to %s\n", discordDetails.c_str());
 }

@@ -52,7 +52,7 @@ char* GetGameBuildVersion()
 void CMainMenu::Init()
 {
 	m_gameBuildVersion = GetGameBuildVersion();
-	printf("Warcraft build version: %s", m_gameBuildVersion.c_str());
+	printf("Warcraft build version: %s\n", m_gameBuildVersion.c_str());
 }
 
 void CMainMenu::Draw()

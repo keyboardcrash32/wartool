@@ -77,6 +77,12 @@
     <ClInclude Include="..\external\rapidjson\stream.h" />
     <ClInclude Include="..\external\rapidjson\stringbuffer.h" />
     <ClInclude Include="..\external\rapidjson\writer.h" />
+    <ClInclude Include="..\external\SPTLib\DetoursUtils.hpp" />
+    <ClInclude Include="..\external\SPTLib\MemUtils.h" />
+    <ClInclude Include="..\external\SPTLib\patterns.hpp" />
+    <ClInclude Include="..\external\SPTLib\patterns_macros.hpp" />
+    <ClInclude Include="..\external\SPTLib\sptlib-stdafx.hpp" />
+    <ClInclude Include="..\external\SPTLib\Utils.hpp" />
     <ClInclude Include="CDiscordRPC.h" />
     <ClInclude Include="CFPSCounter.h" />
     <ClInclude Include="CImguiMenu.h" />
@@ -85,6 +91,7 @@
     <ClInclude Include="CMainMenu.h" />
     <ClInclude Include="ImGuiIncludes.h" />
     <ClInclude Include="wartool.h" />
+    <ClInclude Include="wc3_patterns.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\discord-rpc\connection_win.cpp" />
@@ -104,6 +111,7 @@
     <ClCompile Include="..\external\MinHook\hde\hde64.c" />
     <ClCompile Include="..\external\MinHook\hook.c" />
     <ClCompile Include="..\external\MinHook\trampoline.c" />
+    <ClCompile Include="..\external\SPTLib\DetoursUtils.cpp" />
     <ClCompile Include="CDiscordRPC.cpp" />
     <ClCompile Include="CFPSCounter.cpp" />
     <ClCompile Include="CImguiMenu.cpp" />
@@ -170,13 +178,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.mix</TargetExt>
-    <IncludePath>..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
+    <IncludePath>..\external\SPTLib;..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
     <OutDir>..\..\..\..\Games\Warcraft 3\</OutDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.mix</TargetExt>
-    <IncludePath>..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
+    <IncludePath>..\external\SPTLib;..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
     <OutDir>..\..\..\..\Games\Warcraft 3\</OutDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -188,11 +196,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;WARTOOL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RAPIDJSON_NOMEMBERITERATORCLASS;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;WARTOOL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -207,11 +216,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;WARTOOL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RAPIDJSON_NOMEMBERITERATORCLASS;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;WARTOOL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

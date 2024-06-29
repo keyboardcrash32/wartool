@@ -1,0 +1,111 @@
+#pragma once
+
+#include "patterns.hpp"
+#include "MemUtils.h"
+
+namespace patterns {
+	namespace engine {
+		PATTERNS(ClientDLL_Init,
+			"HL-SteamPipe",
+			"55 8B EC 81 EC 00 02 00 00 68",
+			"HL-4554",
+			"81 EC 00 04 00 00 8D 44 24 00 68 ?? 6D ?? ??",
+			"HL-NGHL",
+			"81 EC 00 04 00 00 8D 44 24 00 68 94 75 EB 01",
+			"HL-WON-1712",
+			"A1 ?? ?? ?? ?? 81 EC 00 02 00 00 85 C0"
+		);
+
+		PATTERNS(Con_Printf,
+			"CS-4554",
+			"B8 00 10 00 00 E8 ?? ?? ?? ?? 8B 8C 24 ?? ?? ?? ??",
+			"CS-8684",
+			"55 8B EC B8 00 10 00 00 E8 ?? ?? ?? ?? 8B 4D ??");
+
+		PATTERNS(Cvar_RegisterVariable,
+			"CS-4554",
+			"83 EC 14 53 56 8B 74 24 ??",
+			"CS-8684",
+			"55 8B EC 83 EC 14 53 56 8B 75 ?? 57 8B 06");
+
+		PATTERNS(Host_Frame,
+			"CS-4554",
+			"55 8B EC 83 EC 18 56 57");
+
+		PATTERNS(R_ForceCVars,
+			"CS-8684",
+			"55 8B EC 8B 45 ?? 85 C0 0F 84 ?? ?? ?? ?? D9 05 ?? ?? ?? ??",
+			"CS-4554",
+			"8B 44 24 ?? 85 C0 0F 84 ?? ?? ?? ?? D9 05 ?? ?? ?? ??");
+
+		PATTERNS(R_DrawSequentialPoly,
+			"HL-SteamPipe",
+			"55 8B EC 51 A1 ?? ?? ?? ?? 53 56 57 83 B8 F8 02 00 00 01 75 63 E8 ?? ?? ?? ?? 68 03 03 00 00 68 02 03 00 00",
+			"HL-4554",
+			"A1 ?? ?? ?? ?? 53 55 56 8B 88",
+			"OpposingForce-1600",
+			"A1 ?? ?? ?? ?? 53 55 BD 01 00 00 00 8B 88 F8 02 00 00 56 3B CD 57 75 62 E8 ?? ?? ?? ?? 68 03 03 00 00 68 02 03 00 00"
+		);
+
+		PATTERNS(R_Clear,
+			"HL-SteamPipe",
+			"8B 15 ?? ?? ?? ?? 33 C0 83 FA 01 0F 9F C0 50 E8 ?? ?? ?? ?? D9 05 ?? ?? ?? ?? DC 1D ?? ?? ?? ?? 83 C4 04 DF E0",
+			"HL-NGHL",
+			"D9 05 ?? ?? ?? ?? DC 1D ?? ?? ?? ?? DF E0 F6 C4 ?? ?? ?? D9 05 ?? ?? ?? ?? D8 1D"
+		);
+
+		PATTERNS(R_DrawSkyBox,
+			"HL-SteamPipe",
+			"55 8B EC 83 EC 1C A1 ?? ?? ?? ?? 53 56",
+			"HL-4554",
+			"83 EC 1C A1 ?? ?? ?? ?? 53 55",
+			"HL-WON-1712",
+			"83 EC 0C 53 55 56 57 E8 ?? ?? ?? ?? 33 FF"
+		);
+
+		PATTERNS(studioapi_GetCurrentEntity,
+			"HL-SteamPipe",
+			"A1 ?? ?? ?? ?? C3 90 90 90 90 90 90 90 90 90 90 55 8B EC 8B 45 08 85 C0 7C 18",
+			"HL-4554",
+			"A1 ?? ?? ?? ?? C3 90 90 90 90 90 90 90 90 90 90 8B 44 24 04 85 C0 7C 17",
+			"HL-NGHL",
+			"A1 ?? ?? ?? ?? C3 90 90 90 90 90 90 90 90 90 90 8B 4C 24 04 85 C9 7C 1B",
+			"HL-WON-1712",
+			"A1 ?? ?? ?? ?? C3 90 90 90 90 90 90 90 90 90 90 8B 44 24 04 85 C0 7C 18"
+		);
+
+		PATTERNS(SPR_Set,
+			"HL-SteamPipe",
+			"55 8B EC 83 EC 08 8D 45 ?? 8D 4D ?? 50 8D 55 ?? 51 8D 45 ?? 52 50",
+			"HL-4554",
+			"83 EC 08 8D 44 24 ?? 8D 4C 24 ?? 8D 54 24 ?? 50 51 8D 44 24",
+			"HL-WON-1712",
+			"8B 44 24 ?? 83 EC 08 50"
+		);
+
+		PATTERNS(R_StudioDrawPlayer,
+			"CS-8684",
+			"55 8B EC 81 EC DC 0B 00 00",
+			"CS-4554",
+			"81 EC E0 0B 00 00");
+
+		PATTERNS(R_StudioRenderFinal,
+			"CS-4554",
+			"51 6A 00 6A 00 C7 05 ?? ?? ?? ?? ?? ?? ?? ??");
+
+		PATTERNS(R_StudioSetupBones,
+			"HL-SteamPipe",
+			"55 8B EC 83 EC 48 A1 ?? ?? ?? ?? 8B 0D ?? ?? ?? ?? 53 56 8B 90",
+			"HL-4554",
+			"A1 ?? ?? ?? ?? 8B 0D ?? ?? ?? ?? 83 EC 48 8B 90"
+		);
+	}
+
+	namespace client
+	{
+		PATTERNS(StudioRenderModel,
+			"CS-4554",
+			"56 8B F1 FF 15 ?? ?? ?? ?? 6A 00"
+		);
+	}
+}

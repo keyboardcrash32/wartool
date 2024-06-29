@@ -22,6 +22,8 @@
 #include "MinHook.h"
 #include <stdio.h>
 #include <gl/gl.h>
+#include "Utils.hpp"
+#include "wc3_patterns.hpp" // must be included after Utils.hpp
 
 // OpenGL
 typedef int(__stdcall* _wglSwapLayerBuffers)(HDC, UINT);

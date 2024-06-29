@@ -132,7 +132,7 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	a1->flt15 = a5 * (a6 * -2.0f) / (a6 - a5);
 	a1->flt16 = 0.0f;
 
-	//return ORIG_SetGameAreaFOV(a1, a2, a3, a4, a5, a6); // no need in this? - keyboardcrash
+	//return ORIG_SetGameAreaFOV(a1, a2, a3, a4, a5, a6); // no need in this?
 	return 0;
 }
 
@@ -158,20 +158,31 @@ void HookOpenGL()
 
 void HookEngine()
 {
-	g_lpGameDLL = GetModuleHandleA("game.dll");
-	if (!g_lpGameDLL)
-		return;
+	void* handle;
+	void* base;
+	size_t size;
 
-	ORIG_SetGameAreaFOV = GetSetGameAreaFOVAddr();
+	if (MemUtils::GetModuleInfo(L"game.dll", &handle, &base, &size))
+	{
+		// TODO: fix these - keyboardcrash
+		g_GetWindowXoffset = (float*)(reinterpret_cast<HMODULE>(g_lpGameDLL) + GETWINDOWXOFFSET_OFFSET);
+		g_GetWindowYoffset = (float*)(reinterpret_cast<HMODULE>(g_lpGameDLL) + GETWINDOWYOFFSET_OFFSET);
 
-	g_GetWindowXoffset = (float*)(reinterpret_cast<HMODULE>(g_lpGameDLL) + GETWINDOWXOFFSET_OFFSET);
-	g_GetWindowYoffset = (float*)(reinterpret_cast<HMODULE>(g_lpGameDLL) + GETWINDOWYOFFSET_OFFSET);
+		auto utils = Utils::Utils(handle, base, size);
 
-	int status;
+		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_SetGameAreaFOV), 
+									reinterpret_cast<void*>(HOOKED_SetGameAreaFOV));
+		
+		auto fSetGameAreaFOV = utils.FindAsync(ORIG_SetGameAreaFOV, patterns::engine::SetGameAreaFOV);
+		auto patternSetGameAreaFOV = fSetGameAreaFOV.get();
+		if (ORIG_SetGameAreaFOV)
+		{
+			int status;
 
-	FindWithOffset(GameDLL, SetGameAreaFOV, SETGAMEAREAFOV_OFFSET);
-	CreateHook(GameDLL, SetGameAreaFOV); // TODO: fix - keyboardcrash
-	MH_EnableHook(MH_ALL_HOOKS);
+			CreateHook(GameDLL, SetGameAreaFOV);
+			MH_EnableHook(MH_ALL_HOOKS);
+		}
+	}
 }
 
 BOOL WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID lpvReserved)

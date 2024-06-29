@@ -34,6 +34,9 @@
     <Filter Include="discord-rpc\rapidjson\msinttypes">
       <UniqueIdentifier>{366b4a73-fcee-47dd-b014-3d7397cdb0e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SPTLib">
+      <UniqueIdentifier>{abafb920-4d5f-4087-b2b0-23501d3172fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\external\imgui\imconfig.h">
@@ -234,6 +237,27 @@
     <ClInclude Include="..\external\rapidjson\msinttypes\stdint.h">
       <Filter>discord-rpc\rapidjson\msinttypes</Filter>
     </ClInclude>
+    <ClInclude Include="wc3_patterns.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\SPTLib\DetoursUtils.hpp">
+      <Filter>SPTLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\SPTLib\MemUtils.h">
+      <Filter>SPTLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\SPTLib\patterns.hpp">
+      <Filter>SPTLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\SPTLib\patterns_macros.hpp">
+      <Filter>SPTLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\SPTLib\sptlib-stdafx.hpp">
+      <Filter>SPTLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\SPTLib\Utils.hpp">
+      <Filter>SPTLib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\imgui\imgui.cpp">
@@ -307,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="..\external\discord-rpc\serialization.cpp">
       <Filter>discord-rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\SPTLib\DetoursUtils.cpp">
+      <Filter>SPTLib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

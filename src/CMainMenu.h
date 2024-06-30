@@ -21,6 +21,8 @@
 #include "CImguiMenu.h"
 #include <windows.h>
 
+extern float g_CustomFovFix;
+
 class CMainMenu : public CImguiMenu
 {
 public:
@@ -36,6 +38,7 @@ public:
 	bool Fix8MBSize = false;
 	bool MemHackProtection = false;
 	bool showFPS = false;
+    bool widescreenFix = false;
 
 private:
     std::string m_gameBuildVersion;

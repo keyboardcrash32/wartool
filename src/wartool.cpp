@@ -13,6 +13,8 @@ _WndProc ORIG_WndProc = NULL;
 _SetGameAreaFOV ORIG_SetGameAreaFOV = NULL;
 float g_GetWindowXoffset;
 float g_GetWindowYoffset;
+bool g_WidescreenFix = false;
+float g_CustomFovFix = 1.0f;
 
 void* g_lpOpenGL32;
 void* g_lpGameDLL;
@@ -71,6 +73,8 @@ int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
 	if (!gImGui.mainMenu.lockCursor && gLockCursor.cursorLocked)
 		gLockCursor.Unlock();
 
+	g_WidescreenFix = gImGui.mainMenu.widescreenFix;
+
     return ORIG_wglSwapLayerBuffers(a1, a2);
 }
 
@@ -89,13 +93,14 @@ PROC __stdcall HOOKED_wglGetProcAddress(LPCSTR a1) // just for logging
 
 int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, float a5, float a6)
 {
+	if (!g_WidescreenFix)
+		return ORIG_SetGameAreaFOV(a1, a2, a3, a4, a5, a6);
+
 	g_GetWindowXoffset = *(float*)MakePtr(g_lpGameDLL, GETWINDOWXOFFSET_OFFSET);
 	g_GetWindowYoffset = *(float*)MakePtr(g_lpGameDLL, GETWINDOWYOFFSET_OFFSET);
 
 	if (g_GetWindowXoffset == 0 || g_GetWindowYoffset == 0)
 		return ORIG_SetGameAreaFOV(a1, a2, a3, a4, a5, a6);
-
-	const float CustomFovFix = 1.0f;
 
 	float ScreenX = g_GetWindowXoffset;
 	float ScreenY = g_GetWindowYoffset;
@@ -106,13 +111,11 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	float v3 = v2 * a5;
 	float v4 = v3 * a4;
 
-
-	a1->flt1 = ((a5 * (4.0f / 3.0f)) / (ScreenX / ScreenY) * CustomFovFix) / v4; // Fix 4:3 to WindowX/WindowY
+	a1->flt1 = ((a5 * (4.0f / 3.0f)) / (ScreenX / ScreenY) *g_CustomFovFix) / v4; // Fix 4:3 to WindowX/WindowY
 	a1->flt2 = 0.0f;
 	a1->flt3 = 0.0f;
 	a1->flt4 = 0.0f;
 	a1->flt5 = 0.0f;
-
 
 	a1->flt6 = a5 / v3;
 	a1->flt7 = 0.0f;
@@ -120,17 +123,14 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	a1->flt9 = 0.0f;
 	a1->flt10 = 0.0f;
 
-
 	a1->flt11 = (a5 + a6) / (a6 - a5);
 	a1->flt12 = 1.0f;
 	a1->flt13 = 0.0f;
 	a1->flt14 = 0.0f;
 
-
 	a1->flt15 = a5 * (a6 * -2.0f) / (a6 - a5);
 	a1->flt16 = 0.0f;
 
-	//return ORIG_SetGameAreaFOV(a1, a2, a3, a4, a5, a6); // no need in this?
 	return 0;
 }
 
@@ -164,10 +164,6 @@ void HookEngine()
 
 	if (MemUtils::GetModuleInfo(L"game.dll", &handle, &base, &size))
 	{
-		// TODO: fix these - keyboardcrash
-		/*g_GetWindowXoffset = *(float*)(reinterpret_cast<HMODULE>(handle) + GETWINDOWXOFFSET_OFFSET);
-		g_GetWindowYoffset = *(float*)(reinterpret_cast<HMODULE>(handle) + GETWINDOWYOFFSET_OFFSET*/
-
 		auto utils = Utils::Utils(handle, base, size);
 
 		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_SetGameAreaFOV), 

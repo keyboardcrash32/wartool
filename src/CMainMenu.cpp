@@ -63,6 +63,8 @@ void CMainMenu::Draw()
 	ImGui::Text("Warcraft build version: %s", m_gameBuildVersion.c_str());
 
 	ImGui::Checkbox("Lock cursor in a window", &lockCursor);
+	ImGui::Checkbox("Widescreen Fix", &widescreenFix);
+	ImGui::SliderFloat("Custom FOV fix", &g_CustomFovFix, 0.1f, 5.0f);
 	ImGui::Checkbox("Save screenshots in .png (NOT IMPLEMENTED)", &PNGScreenshots);
 	ImGui::Checkbox("MemHack protection (NOT IMPLEMENTED)", &MemHackProtection);
 	ImGui::Checkbox("Show FPS (NOT IMPLEMENTED)", &showFPS);

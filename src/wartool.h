@@ -57,7 +57,6 @@ struct Matrix1 // Matrix 4x4
 #define GETWINDOWXOFFSET_OFFSET 0xADE91C
 #define GETWINDOWYOFFSET_OFFSET 0xADE918
 
-#define SETGAMEAREAFOV_OFFSET 0x7B66F0
 typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4, float a5, float a6);
 
 #define CreateHook(lib, func_name) \
@@ -72,10 +71,6 @@ typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4
     else \
         printf("[GameDLL] Could not find " #func_name ".\n");
 
-#define FindWithOffset(lib, func_name, offset) \
-    if ((ORIG_##func_name = reinterpret_cast<_##func_name>(##offset))) \
-        printf("[GameDLL] Found " #func_name " at %p.\n", ORIG_##func_name); \
-    else \
-        printf("[GameDLL] Could not find " #func_name ".\n");
+#define MakePtr(a, b) (DWORD)((DWORD)a + (DWORD)b)
 
 #endif // WARTOOL_H_INCLUDED

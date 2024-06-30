@@ -11,8 +11,8 @@ _WndProc ORIG_WndProc = NULL;
 
 // Engine
 _SetGameAreaFOV ORIG_SetGameAreaFOV = NULL;
-float* g_GetWindowXoffset;
-float* g_GetWindowYoffset;
+float g_GetWindowXoffset;
+float g_GetWindowYoffset;
 
 void* g_lpOpenGL32;
 void* g_lpGameDLL;
@@ -41,11 +41,6 @@ _wglGetProcAddress GetWGLProcAddress()
 _glClear GetGLClearAddr()
 {
 	return reinterpret_cast<_glClear>(GetProcAddress(LoadLibrary(TEXT("OpenGL32.dll")), "glClear"));
-}
-
-_SetGameAreaFOV GetSetGameAreaFOVAddr()
-{
-	return reinterpret_cast<_SetGameAreaFOV>(SETGAMEAREAFOV_OFFSET + reinterpret_cast<HMODULE>(g_lpGameDLL));
 }
 
 int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
@@ -94,13 +89,16 @@ PROC __stdcall HOOKED_wglGetProcAddress(LPCSTR a1) // just for logging
 
 int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, float a5, float a6)
 {
+	g_GetWindowXoffset = *(float*)MakePtr(g_lpGameDLL, GETWINDOWXOFFSET_OFFSET);
+	g_GetWindowYoffset = *(float*)MakePtr(g_lpGameDLL, GETWINDOWYOFFSET_OFFSET);
+
 	if (g_GetWindowXoffset == 0 || g_GetWindowYoffset == 0)
 		return ORIG_SetGameAreaFOV(a1, a2, a3, a4, a5, a6);
 
 	const float CustomFovFix = 1.0f;
 
-	float ScreenX = *g_GetWindowXoffset;
-	float ScreenY = *g_GetWindowYoffset;
+	float ScreenX = g_GetWindowXoffset;
+	float ScreenY = g_GetWindowYoffset;
 
 	float v1 = 1.0f / sqrt(a4 * a4 + 1.0f);
 	float v2 = tan(v1 * a3 * 0.5f);
@@ -158,6 +156,8 @@ void HookOpenGL()
 
 void HookEngine()
 {
+	g_lpGameDLL = GetModuleHandleA("game.dll");
+
 	void* handle;
 	void* base;
 	size_t size;
@@ -165,8 +165,8 @@ void HookEngine()
 	if (MemUtils::GetModuleInfo(L"game.dll", &handle, &base, &size))
 	{
 		// TODO: fix these - keyboardcrash
-		g_GetWindowXoffset = (float*)(reinterpret_cast<HMODULE>(g_lpGameDLL) + GETWINDOWXOFFSET_OFFSET);
-		g_GetWindowYoffset = (float*)(reinterpret_cast<HMODULE>(g_lpGameDLL) + GETWINDOWYOFFSET_OFFSET);
+		/*g_GetWindowXoffset = *(float*)(reinterpret_cast<HMODULE>(handle) + GETWINDOWXOFFSET_OFFSET);
+		g_GetWindowYoffset = *(float*)(reinterpret_cast<HMODULE>(handle) + GETWINDOWYOFFSET_OFFSET*/
 
 		auto utils = Utils::Utils(handle, base, size);
 

@@ -57,7 +57,12 @@ struct Matrix1 // Matrix 4x4
 #define GETWINDOWXOFFSET_OFFSET 0xADE91C
 #define GETWINDOWYOFFSET_OFFSET 0xADE918
 
+#define WC3MB_WARN 0x00
+#define WC3MB_ERROR 0x01
+#define WC3MB_QUESTION 0x02
+
 typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4, float a5, float a6);
+typedef int(__fastcall* _WC3MessageBox)(const char* string, int type, int a3, int a4, int a5, int a6, int a7);
 
 #define CreateHook(lib, func_name) \
         status = MH_CreateHook(ORIG_##func_name, HOOKED_##func_name, reinterpret_cast<void**>(&ORIG_##func_name)); \

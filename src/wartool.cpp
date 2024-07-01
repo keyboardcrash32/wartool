@@ -11,6 +11,7 @@ _WndProc ORIG_WndProc = NULL;
 
 // Engine
 _SetGameAreaFOV ORIG_SetGameAreaFOV = NULL;
+_WC3MessageBox ORIG_WC3MessageBox = NULL;
 float g_GetWindowXoffset;
 float g_GetWindowYoffset;
 bool g_WidescreenFix = false;
@@ -87,7 +88,7 @@ void __stdcall HOOKED_glClear(GLbitfield a1)
 
 PROC __stdcall HOOKED_wglGetProcAddress(LPCSTR a1) // just for logging
 {
-    printf("[OpenGL32] HOOKED_wglGetProcAddress: %s\n", a1);
+    printf("[OpenGL32] wglGetProcAddress: %s\n", a1);
     return ORIG_wglGetProcAddress(a1);
 }
 
@@ -96,6 +97,7 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	if (!g_WidescreenFix)
 		return ORIG_SetGameAreaFOV(a1, a2, a3, a4, a5, a6);
 
+	// TODO: find a way to read these values from any version of the game - keyboardcrash
 	g_GetWindowXoffset = *(float*)MakePtr(g_lpGameDLL, GETWINDOWXOFFSET_OFFSET);
 	g_GetWindowYoffset = *(float*)MakePtr(g_lpGameDLL, GETWINDOWYOFFSET_OFFSET);
 
@@ -111,7 +113,7 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	float v3 = v2 * a5;
 	float v4 = v3 * a4;
 
-	a1->flt1 = ((a5 * (4.0f / 3.0f)) / (ScreenX / ScreenY) *g_CustomFovFix) / v4; // Fix 4:3 to WindowX/WindowY
+	a1->flt1 = ((a5 * (4.0f / 3.0f)) / (ScreenX / ScreenY) * g_CustomFovFix) / v4; // Fix 4:3 to WindowX/WindowY
 	a1->flt2 = 0.0f;
 	a1->flt3 = 0.0f;
 	a1->flt4 = 0.0f;
@@ -132,6 +134,38 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	a1->flt16 = 0.0f;
 
 	return 0;
+}
+
+std::string WC3MessageBoxFormatType(int type)
+{
+	std::string str;
+
+	switch (type)
+	{
+	case WC3MB_WARN:
+		str = "WC3MB_WARN";
+		break;
+	case WC3MB_ERROR:
+		str = "WC3MB_ERROR";
+		break;
+	case WC3MB_QUESTION:
+		str = "WC3MB_QUESTION";
+		break;
+	default:
+		str = "Unknown: " + type;
+		break;
+	}
+
+	return str;
+}
+
+int __fastcall HOOKED_WC3MessageBox(const char* string, int type) // TODO: fix - keyboardcrash
+{
+#ifdef _DEBUG
+	printf("WC3MessageBox (%s): %s\n", WC3MessageBoxFormatType(type).c_str(), string);
+#endif
+
+	return ORIG_WC3MessageBox(string, type, 0, 0, 0, 0, 0);
 }
 
 void HookOpenGL()
@@ -171,11 +205,16 @@ void HookEngine()
 		
 		auto fSetGameAreaFOV = utils.FindAsync(ORIG_SetGameAreaFOV, patterns::engine::SetGameAreaFOV);
 		auto patternSetGameAreaFOV = fSetGameAreaFOV.get();
+
+		auto fWC3MessageBox = utils.FindAsync(ORIG_WC3MessageBox, patterns::engine::WC3MessageBox);
+		auto patternWC3MessageBox = fWC3MessageBox.get();
+
 		if (ORIG_SetGameAreaFOV)
 		{
 			int status;
 
 			CreateHook(GameDLL, SetGameAreaFOV);
+			CreateHook(GameDLL, WC3MessageBox);
 			MH_EnableHook(MH_ALL_HOOKS);
 		}
 	}

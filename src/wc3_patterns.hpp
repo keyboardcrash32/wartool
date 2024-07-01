@@ -29,6 +29,11 @@ namespace patterns
             "Pre-Reforged",
             "51 D9 44 24 ?? 56 DC C8"
         );
+
+        PATTERNS(WC3MessageBox,
+			"Pre-Reforged",
+			"56 57 8B FA 85 FF 8B F1 0F 84 ?? ?? ?? ?? A1 ?? ?? ?? ??"
+		);
     }
 }
 

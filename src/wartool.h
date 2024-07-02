@@ -57,12 +57,7 @@ struct Matrix1 // Matrix 4x4
 #define GETWINDOWXOFFSET_OFFSET 0xADE91C
 #define GETWINDOWYOFFSET_OFFSET 0xADE918
 
-#define WC3MB_WARN 0x00
-#define WC3MB_ERROR 0x01
-#define WC3MB_QUESTION 0x02
-
 typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4, float a5, float a6);
-typedef int(__fastcall* _WC3MessageBox)(const char* string, int type, int a3, int a4, int a5, int a6, int a7);
 
 #define CreateHook(lib, func_name) \
         status = MH_CreateHook(ORIG_##func_name, HOOKED_##func_name, reinterpret_cast<void**>(&ORIG_##func_name)); \
@@ -75,6 +70,17 @@ typedef int(__fastcall* _WC3MessageBox)(const char* string, int type, int a3, in
         printf("[GameDLL] Found " #func_name " at %p.\n", ORIG_##func_name); \
     else \
         printf("[GameDLL] Could not find " #func_name ".\n");
+
+
+#define SPTFind(future_name)                                                                                                                  \
+	{                                                                                                                                      \
+		auto f##future_name = utils.FindAsync(ORIG_##future_name, patterns::engine::future_name);                                          \
+		auto pattern = f##future_name.get();                                                                                               \
+		if (ORIG_##future_name)                                                                                                            \
+		{                                                                                                                                  \
+			printf("[GameDLL] Found " #future_name " at %p (using the %s pattern).\n", ORIG_##future_name, pattern->name()); \
+		}                                                                                                                                  \
+	}
 
 #define MakePtr(a, b) (DWORD)((DWORD)a + (DWORD)b)
 

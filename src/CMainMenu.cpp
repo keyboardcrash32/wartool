@@ -57,14 +57,15 @@ void CMainMenu::Init()
 
 void CMainMenu::Draw()
 {
-    ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+	ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 	ImGui::Begin("WarTool Main Menu");
-	
+
 	ImGui::Text("Warcraft build version: %s", m_gameBuildVersion.c_str());
 
 	ImGui::Checkbox("Lock cursor in a window", &lockCursor);
 	ImGui::Checkbox("Widescreen Fix", &widescreenFix);
 	ImGui::SliderFloat("Custom FOV fix", &g_CustomFovFix, 0.1f, 5.0f);
+
 	ImGui::Checkbox("Save screenshots in .png (NOT IMPLEMENTED)", &PNGScreenshots);
 	ImGui::Checkbox("MemHack protection (NOT IMPLEMENTED)", &MemHackProtection);
 	ImGui::Checkbox("Show FPS (NOT IMPLEMENTED)", &showFPS);

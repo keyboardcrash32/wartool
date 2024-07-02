@@ -2,6 +2,7 @@
 #include "CImguiMgr.h"
 #include "CLockCursor.h"
 #include "CDiscordRPC.h"
+#include "MessageBox.h"
 
 // OpenGL
 _wglSwapLayerBuffers ORIG_wglSwapLayerBuffers = NULL;
@@ -136,38 +137,6 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	return 0;
 }
 
-std::string WC3MessageBoxFormatType(int type)
-{
-	std::string str;
-
-	switch (type)
-	{
-	case WC3MB_WARN:
-		str = "WC3MB_WARN";
-		break;
-	case WC3MB_ERROR:
-		str = "WC3MB_ERROR";
-		break;
-	case WC3MB_QUESTION:
-		str = "WC3MB_QUESTION";
-		break;
-	default:
-		str = "Unknown: " + type;
-		break;
-	}
-
-	return str;
-}
-
-int __fastcall HOOKED_WC3MessageBox(const char* string, int type) // TODO: fix - keyboardcrash
-{
-#ifdef _DEBUG
-	printf("WC3MessageBox (%s): %s\n", WC3MessageBoxFormatType(type).c_str(), string);
-#endif
-
-	return ORIG_WC3MessageBox(string, type, 0, 0, 0, 0, 0);
-}
-
 void HookOpenGL()
 {
     g_lpOpenGL32 = GetModuleHandleA("opengl32.dll");
@@ -185,6 +154,7 @@ void HookOpenGL()
 	CreateHook(OpenGL32, wglSwapLayerBuffers);
 	Find(OpenGL32, wglGetProcAddress);
 	CreateHook(OpenGL32, wglGetProcAddress);
+
 	MH_EnableHook(MH_ALL_HOOKS);
 }
 
@@ -202,21 +172,18 @@ void HookEngine()
 
 		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_SetGameAreaFOV), 
 									reinterpret_cast<void*>(HOOKED_SetGameAreaFOV));
-		
-		auto fSetGameAreaFOV = utils.FindAsync(ORIG_SetGameAreaFOV, patterns::engine::SetGameAreaFOV);
-		auto patternSetGameAreaFOV = fSetGameAreaFOV.get();
 
-		auto fWC3MessageBox = utils.FindAsync(ORIG_WC3MessageBox, patterns::engine::WC3MessageBox);
-		auto patternWC3MessageBox = fWC3MessageBox.get();
+		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_WC3MessageBox),
+									reinterpret_cast<void*>(HOOKED_WC3MessageBox));
 
-		if (ORIG_SetGameAreaFOV)
-		{
-			int status;
+		int status;
 
-			CreateHook(GameDLL, SetGameAreaFOV);
-			CreateHook(GameDLL, WC3MessageBox);
-			MH_EnableHook(MH_ALL_HOOKS);
-		}
+		SPTFind(SetGameAreaFOV);
+		CreateHook(GameDLL, SetGameAreaFOV);
+		SPTFind(WC3MessageBox);
+		CreateHook(GameDLL, WC3MessageBox);
+
+		MH_EnableHook(MH_ALL_HOOKS);
 	}
 }
 

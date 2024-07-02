@@ -258,6 +258,9 @@
     <ClInclude Include="..\external\SPTLib\Utils.hpp">
       <Filter>SPTLib</Filter>
     </ClInclude>
+    <ClInclude Include="MessageBox.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\external\imgui\imgui.cpp">
@@ -334,6 +337,9 @@
     </ClCompile>
     <ClCompile Include="..\external\SPTLib\DetoursUtils.cpp">
       <Filter>SPTLib</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageBox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

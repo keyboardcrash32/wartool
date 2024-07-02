@@ -90,6 +90,7 @@
     <ClInclude Include="CLockCursor.h" />
     <ClInclude Include="CMainMenu.h" />
     <ClInclude Include="ImGuiIncludes.h" />
+    <ClInclude Include="MessageBox.h" />
     <ClInclude Include="wartool.h" />
     <ClInclude Include="wc3_patterns.hpp" />
   </ItemGroup>
@@ -118,6 +119,7 @@
     <ClCompile Include="CImguiMgr.cpp" />
     <ClCompile Include="CLockCursor.cpp" />
     <ClCompile Include="CMainMenu.cpp" />
+    <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="wartool.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

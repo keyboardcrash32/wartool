@@ -11,8 +11,6 @@ env:
   SOLUTION_FILE_PATH: ./msvc/
 
   # Configuration type to build.
-  # You can convert this to a build matrix if you need coverage of multiple configuration types.
-  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
 
 permissions:
@@ -42,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: wartooldev
-        path: ./src/Release
+        path: ./src/Release/windows-latest.zip

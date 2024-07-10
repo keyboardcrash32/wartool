@@ -18,8 +18,12 @@ float g_GetWindowYoffset;
 bool g_WidescreenFix = false;
 float g_CustomFovFix = 1.0f;
 
+// Direct3D
+_Direct3DCreate8 ORIG_Direct3DCreate8 = NULL;
+
 void* g_lpOpenGL32;
 void* g_lpGameDLL;
+void* g_lpDirect3D;
 CImguiMgr gImGui;
 CLockCursor gLockCursor;
 CDiscordRPC gDiscordRPC;
@@ -45,6 +49,11 @@ _wglGetProcAddress GetWGLProcAddress()
 _glClear GetGLClearAddr()
 {
 	return reinterpret_cast<_glClear>(GetProcAddress(LoadLibrary(TEXT("OpenGL32.dll")), "glClear"));
+}
+
+_Direct3DCreate8 GetDirect3DCreate8Addr()
+{
+	return reinterpret_cast<_Direct3DCreate8>(GetProcAddress(LoadLibrary(TEXT("d3d8.dll")), "Direct3DCreate8"));
 }
 
 int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
@@ -137,6 +146,33 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	return 0;
 }
 
+int __stdcall HOOKED_Direct3DCreate8(UINT a1) // TODO: fix - keyboardcrash
+{
+	MessageBoxA(NULL, "WarTool does not support Direct3D.\n"
+		"Please migrate to OpenGL by running the\n"
+		"wartool.bat file, or by running the\n"
+		"game executable with -opengl argument.\n"
+		, "WarTool error!", MB_ICONERROR);
+
+	return ORIG_Direct3DCreate8(a1);
+}
+
+void HookDirect3D()
+{
+	g_lpDirect3D = GetModuleHandleA("d3d8.dll");
+	if (!g_lpDirect3D)
+		return;
+
+	ORIG_Direct3DCreate8 = GetDirect3DCreate8Addr();
+
+	int status;
+
+	Find(Direct3D, Direct3DCreate8);
+	CreateHook(Direct3D, Direct3DCreate8);
+
+	MH_EnableHook(MH_ALL_HOOKS);
+}
+
 void HookOpenGL()
 {
     g_lpOpenGL32 = GetModuleHandleA("opengl32.dll");
@@ -206,6 +242,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID lpvReserved)
 	{
 #if _DEBUG
 		AllocConsole();
+		SetConsoleTitleA("WarTool Debug Console");
 		freopen("CONOUT$", "w", stdout);
 		printf("Console allocated\n");
 #endif
@@ -219,6 +256,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID lpvReserved)
 			return FALSE;
 		}
 
+		//HookDirect3D();
 		HookOpenGL();
 		HookEngine();
 	}

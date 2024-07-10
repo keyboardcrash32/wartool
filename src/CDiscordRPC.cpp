@@ -45,6 +45,11 @@ void CDiscordRPC::updateDiscordPresence(DiscordRichPresence& discordPresence)
 	Discord_UpdatePresence(&discordPresence);
 	ZeroMemory(&discordPresence, sizeof(discordPresence));
 
+#ifdef DISCORD_DISABLE_IO_THREAD
+	Discord_UpdateConnection();
+#endif
+	Discord_RunCallbacks();
+
 	printf("[Discord RPC] Updated the Discord presence\n");
 }
 
@@ -63,10 +68,7 @@ void CDiscordRPC::Init()
 	Discord_Initialize(APPLICATION_ID, &m_handlers, 1, NULL);
 	printf("[Discord RPC] Discord RPC initialized!\n");
 
-#ifdef DISCORD_DISABLE_IO_THREAD
-	Discord_UpdateConnection();
-#endif
-	Discord_RunCallbacks();
+	updateDiscordPresence(m_discordPresence);
 }
 
 void CDiscordRPC::SetGameState(GameStateEnum gameState)
@@ -78,9 +80,18 @@ void CDiscordRPC::SetGameState(GameStateEnum gameState)
 		discordDetails = "In Menu";
 		break;
 
-	case INGAME:
-		discordDetails = "In Game";
+	case INGAME: {
+		std::string map = "" /*(char*)MakePtr(g_lpGameDLL, MAPNAME_OFFSET)*/;
+
+		size_t begin = map.size();
+		for (; begin > 0 && map[begin - 1] != '\\'; begin--);
+		map = map.substr(begin, map.size() - begin - 4);
+
+		discordDetails = "In Game (" + map + ")";
+
+		m_discordPresence.startTimestamp = time(0);
 		break;
+	}
 
 	default:
 		discordDetails = "Unknown state";
@@ -91,5 +102,11 @@ void CDiscordRPC::SetGameState(GameStateEnum gameState)
 	m_discordPresence.state = discordDetails.c_str();
 	printf("[Discord RPC] Changed the game state to %s\n", discordDetails.c_str());
 	
+	updateDiscordPresence(m_discordPresence);
+}
+
+void CDiscordRPC::SetPartySize(int partySize)
+{
+	m_discordPresence.partySize = partySize;
 	updateDiscordPresence(m_discordPresence);
 }

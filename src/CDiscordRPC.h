@@ -24,7 +24,11 @@
 #include <memory> // for std::unique_ptr
 #include <string>
 #include <windows.h> // for ZeroMemory
+#include <ctime> // for time
 #include "discord_rpc.h"
+//#include "wartool.h"
+
+extern void* g_lpGameDLL;
 
 enum GameStateEnum : int
 {
@@ -41,6 +45,7 @@ public:
 public:
     void Init();
     void SetGameState(GameStateEnum gameState);
+    void SetPartySize(int partySize);
     void updateDiscordPresence(DiscordRichPresence& discordPresence);
 
 private:

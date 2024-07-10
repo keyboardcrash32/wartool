@@ -181,13 +181,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.mix</TargetExt>
     <IncludePath>..\external\SPTLib;..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
-    <OutDir>..\..\..\..\Games\Warcraft 3\</OutDir>
+    <OutDir>$(Configuration)\</OutDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.mix</TargetExt>
     <IncludePath>..\external\SPTLib;..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
-    <OutDir>..\..\..\..\Games\Warcraft 3\</OutDir>
+    <OutDir>$(Configuration)\</OutDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

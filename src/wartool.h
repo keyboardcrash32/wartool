@@ -57,7 +57,16 @@ struct Matrix1 // Matrix 4x4
 #define GETWINDOWXOFFSET_OFFSET 0xADE91C
 #define GETWINDOWYOFFSET_OFFSET 0xADE918
 
+#define JASSRUN_OFFSET 0x761526
+
 typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4, float a5, float a6);
+
+// Direct3D
+typedef int(__stdcall* _Direct3DCreate8)(UINT a1);
+
+// Discord RPC
+#define PLAYERSINGAME_OFFSET 0xAB4E08
+#define MAPNAME_OFFSET 0xAAE7C0
 
 #define CreateHook(lib, func_name) \
         status = MH_CreateHook(ORIG_##func_name, HOOKED_##func_name, reinterpret_cast<void**>(&ORIG_##func_name)); \
@@ -67,9 +76,9 @@ typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4
 
 #define Find(lib, func_name) \
     if ((ORIG_##func_name = reinterpret_cast<_##func_name>(GetProcAddress(reinterpret_cast<HMODULE>(g_lp##lib), #func_name)))) \
-        printf("[GameDLL] Found " #func_name " at %p.\n", ORIG_##func_name); \
+        printf("[" #lib "] Found " #func_name " at %p.\n", ORIG_##func_name); \
     else \
-        printf("[GameDLL] Could not find " #func_name ".\n");
+        printf("[" #lib "] Could not find " #func_name ".\n");
 
 
 #define SPTFind(future_name)                                                                                                                  \

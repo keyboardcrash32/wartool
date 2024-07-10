@@ -40,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: windows-latest
-        path: ./src/Release/windows-latest.zip
+        path: ./wartool/src/Release/windows-latest.zip

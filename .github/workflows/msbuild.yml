@@ -1,8 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: MSBuild
 
 on:
@@ -41,7 +36,7 @@ jobs:
 
     - name: Prepare artifacts
       run: |
-        Compress-Archive -Path ./Release/wartool.mix -Destination windows-latest.zip
+        Compress-Archive -Path ./src/Release/wartool.mix -Destination windows-latest.zip
 
     - name: Deploy
       uses: actions/upload-artifact@v3

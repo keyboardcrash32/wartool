@@ -39,5 +39,5 @@ jobs:
     - name: Deploy
       uses: actions/upload-artifact@v3
       with:
-        name: wartooldev
+        name: windows-latest
         path: ./src/Release/windows-latest.zip

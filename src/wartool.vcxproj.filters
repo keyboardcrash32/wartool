@@ -102,9 +102,6 @@
     <ClInclude Include="CImguiMenu.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CLockCursor.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="CDiscordRPC.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -306,9 +303,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CImguiMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CLockCursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CDiscordRPC.cpp">

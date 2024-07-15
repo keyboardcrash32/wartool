@@ -67,7 +67,6 @@ void CMainMenu::Draw()
 	ImGui::SliderFloat("Custom FOV fix", &g_CustomFovFix, 0.1f, 5.0f);
 
 	ImGui::Checkbox("Save screenshots in .png (NOT IMPLEMENTED)", &PNGScreenshots);
-	ImGui::Checkbox("MemHack protection (NOT IMPLEMENTED)", &MemHackProtection);
 
 	ImGui::End();
     ImGui::PopStyleColor();

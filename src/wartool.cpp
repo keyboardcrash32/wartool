@@ -1,6 +1,5 @@
 #include "wartool.h"
 #include "CImguiMgr.h"
-#include "CLockCursor.h"
 #include "CDiscordRPC.h"
 #include "MessageBox.h"
 
@@ -19,12 +18,12 @@ float g_GetWindowXoffset;
 float g_GetWindowYoffset;
 bool g_WidescreenFix = false;
 float g_CustomFovFix = 1.0f;
+bool g_InGoingGame = false;
 
 void* g_lpOpenGL32;
 void* g_lpGameDLL;
 void* g_lpDirect3D;
 CImguiMgr gImGui;
-CLockCursor gLockCursor;
 CDiscordRPC gDiscordRPC;
 HWND gHwnd;
 
@@ -52,48 +51,59 @@ _glClear GetGLClearAddr()
 
 int __stdcall HOOKED_wglSwapLayerBuffers(HDC a1, UINT a2)
 {
-    static bool initialized = false;
+	static bool initialized = false;
+	static bool cursorLocked = false;
+	RECT windowRect, oldRect;
 
-    if (!initialized)
-    {
-        gHwnd = WindowFromDC(a1);
+	if (!initialized)
+	{
+		gHwnd = WindowFromDC(a1);
 
-        ORIG_WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrA(gHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(HOOKED_WndProc)));;
+		ORIG_WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrA(gHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(HOOKED_WndProc)));;
 
-        gImGui.Init(gHwnd);
-		gLockCursor.SetWindow(gHwnd);
+		gImGui.Init(gHwnd);
 
 		gDiscordRPC.Init();
 		gDiscordRPC.SetGameState(INMENU);
 
-        initialized = true;
-    }
+		initialized = true;
+	}
 
-    gImGui.End();
+	gImGui.End();
 
-	// TODO: lock only if in the going game - keyboardcrash
-	if (gImGui.mainMenu.lockCursor && !gLockCursor.cursorLocked)
-		gLockCursor.Lock();
+	if (gImGui.mainMenu.lockCursor && !cursorLocked && g_InGoingGame)
+	{
+		GetClipCursor(&oldRect); // for uncliping
+		GetClientRect(gHwnd, &windowRect);
 
-	if (!gImGui.mainMenu.lockCursor && gLockCursor.cursorLocked)
-		gLockCursor.Unlock();
+		MapWindowPoints(gHwnd, nullptr, reinterpret_cast<POINT*>(&windowRect), 2);
+
+		ClipCursor(&windowRect);
+		cursorLocked = true;
+	}
+
+	if (!gImGui.mainMenu.lockCursor && cursorLocked)
+	{
+		ClipCursor(&oldRect);
+		cursorLocked = false;
+	}
 
 	g_WidescreenFix = gImGui.mainMenu.widescreenFix;
 
-    return ORIG_wglSwapLayerBuffers(a1, a2);
+	return ORIG_wglSwapLayerBuffers(a1, a2);
 }
 
 void __stdcall HOOKED_glClear(GLbitfield a1)
 {
 	gImGui.Draw();
 
-    ORIG_glClear(a1);
+	ORIG_glClear(a1);
 }
 
 PROC __stdcall HOOKED_wglGetProcAddress(LPCSTR a1) // just for logging
 {
-    printf("[OpenGL32] wglGetProcAddress: %s\n", a1);
-    return ORIG_wglGetProcAddress(a1);
+	printf("[OpenGL32] wglGetProcAddress: %s\n", a1);
+	return ORIG_wglGetProcAddress(a1);
 }
 
 int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, float a5, float a6)
@@ -143,6 +153,7 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 int __fastcall HOOKED_OnPostGameStart(int a1)
 {
 	gDiscordRPC.SetGameState(INGAME);
+	g_InGoingGame = true;
 
 	return ORIG_OnPostGameStart(a1);
 }
@@ -150,24 +161,25 @@ int __fastcall HOOKED_OnPostGameStart(int a1)
 int __fastcall HOOKED_OnPostPlayerLeave(int a1)
 {
 	gDiscordRPC.SetGameState(INMENU);
+	g_InGoingGame = false;
 
 	return ORIG_OnPostPlayerLeave(a1);
 }
 
 void HookOpenGL()
 {
-    g_lpOpenGL32 = GetModuleHandleA("opengl32.dll");
-    if (!g_lpOpenGL32)
-        return;
+	g_lpOpenGL32 = GetModuleHandleA("opengl32.dll");
+	if (!g_lpOpenGL32)
+		return;
 
-    ORIG_wglSwapLayerBuffers = GetSwapLayerBuffersAddr();
-    ORIG_glClear = GetGLClearAddr();
+	ORIG_wglSwapLayerBuffers = GetSwapLayerBuffersAddr();
+	ORIG_glClear = GetGLClearAddr();
 
-    int status;
+	int status;
 
 	Find(OpenGL32, glClear);
 	CreateHook(OpenGL32, glClear);
-    Find(OpenGL32, wglSwapLayerBuffers);
+	Find(OpenGL32, wglSwapLayerBuffers);
 	CreateHook(OpenGL32, wglSwapLayerBuffers);
 	Find(OpenGL32, wglGetProcAddress);
 	CreateHook(OpenGL32, wglGetProcAddress);
@@ -269,5 +281,5 @@ BOOL WINAPI DllMain(HINSTANCE hInstDll, DWORD fdwReason, LPVOID lpvReserved)
 		HookEngine();
 	}
 
-    return TRUE;
+	return TRUE;
 }

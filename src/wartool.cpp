@@ -13,7 +13,7 @@ _WndProc ORIG_WndProc = NULL;
 // Engine
 _SetGameAreaFOV ORIG_SetGameAreaFOV = NULL;
 _WC3MessageBox ORIG_WC3MessageBox = NULL;
-_NetEventGameStart ORIG_NetEventGameStart = NULL;
+_OnPostGameStart ORIG_OnPostGameStart = NULL;
 _OnPostPlayerLeave ORIG_OnPostPlayerLeave = NULL;
 float g_GetWindowXoffset;
 float g_GetWindowYoffset;
@@ -140,11 +140,11 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	return 0;
 }
 
-int __fastcall HOOKED_NetEventGameStart(int a1)
+int __fastcall HOOKED_OnPostGameStart(int a1)
 {
 	gDiscordRPC.SetGameState(INGAME);
 
-	return ORIG_NetEventGameStart(a1);
+	return ORIG_OnPostGameStart(a1);
 }
 
 int __fastcall HOOKED_OnPostPlayerLeave(int a1)
@@ -193,8 +193,8 @@ void HookEngine()
 		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_WC3MessageBox),
 									reinterpret_cast<void*>(HOOKED_WC3MessageBox));
 
-		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_NetEventGameStart),
-									reinterpret_cast<void*>(HOOKED_NetEventGameStart));
+		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_OnPostGameStart),
+									reinterpret_cast<void*>(HOOKED_OnPostGameStart));
 
 		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_OnPostPlayerLeave),
 									reinterpret_cast<void*>(HOOKED_OnPostPlayerLeave));
@@ -205,8 +205,8 @@ void HookEngine()
 		CreateHook(GameDLL, SetGameAreaFOV);
 		SPTFind(WC3MessageBox);
 		CreateHook(GameDLL, WC3MessageBox);
-		SPTFind(NetEventGameStart);
-		CreateHook(GameDLL, NetEventGameStart);
+		SPTFind(OnPostGameStart);
+		CreateHook(GameDLL, OnPostGameStart);
 		SPTFind(OnPostPlayerLeave);
 		CreateHook(GameDLL, OnPostPlayerLeave);
 

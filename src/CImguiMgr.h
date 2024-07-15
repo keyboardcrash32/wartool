@@ -22,7 +22,6 @@
 #include <gl/GL.h>
 #include "ImGuiIncludes.h"
 #include "CMainMenu.h"
-#include "CFPSCounter.h"
 
 class CImguiMgr
 {
@@ -36,7 +35,6 @@ public:
     void End();
 
     CMainMenu mainMenu;
-    CFPSCounter fpsCounter;
 
 private:
     bool m_drawCalled = false;

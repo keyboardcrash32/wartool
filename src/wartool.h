@@ -57,12 +57,7 @@ struct Matrix1 // Matrix 4x4
 #define GETWINDOWXOFFSET_OFFSET 0xADE91C
 #define GETWINDOWYOFFSET_OFFSET 0xADE918
 
-#define JASSRUN_OFFSET 0x761526
-
 typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4, float a5, float a6);
-
-// Direct3D
-typedef int(__stdcall* _Direct3DCreate8)(UINT a1);
 
 // Discord RPC
 #define PLAYERSINGAME_OFFSET 0xAB4E08
@@ -81,7 +76,7 @@ typedef int(__stdcall* _Direct3DCreate8)(UINT a1);
         printf("[" #lib "] Could not find " #func_name ".\n");
 
 
-#define SPTFind(future_name)                                                                                                                  \
+#define SPTFind(future_name)                                                                                                               \
 	{                                                                                                                                      \
 		auto f##future_name = utils.FindAsync(ORIG_##future_name, patterns::engine::future_name);                                          \
 		auto pattern = f##future_name.get();                                                                                               \

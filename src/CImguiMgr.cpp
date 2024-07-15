@@ -38,9 +38,6 @@ void CImguiMgr::Draw()
 	if (m_showMainMenu)
 		mainMenu.Draw();
 
-	if(mainMenu.showFPS)
-		fpsCounter.Draw();
-
 	ImGuiIO& io = ImGui::GetIO();
 	io.MouseDrawCursor = io.WantCaptureMouse;
 

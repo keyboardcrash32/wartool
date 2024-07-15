@@ -68,8 +68,6 @@ void CMainMenu::Draw()
 
 	ImGui::Checkbox("Save screenshots in .png (NOT IMPLEMENTED)", &PNGScreenshots);
 	ImGui::Checkbox("MemHack protection (NOT IMPLEMENTED)", &MemHackProtection);
-	ImGui::Checkbox("Show FPS (NOT IMPLEMENTED)", &showFPS);
-	ImGui::Checkbox("Fix 8MB map size limitation (NOT IMPLEMENTED)", &Fix8MBSize);
 
 	ImGui::End();
     ImGui::PopStyleColor();

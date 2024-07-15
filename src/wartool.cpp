@@ -13,6 +13,8 @@ _WndProc ORIG_WndProc = NULL;
 // Engine
 _SetGameAreaFOV ORIG_SetGameAreaFOV = NULL;
 _WC3MessageBox ORIG_WC3MessageBox = NULL;
+_NetEventGameStart ORIG_NetEventGameStart = NULL;
+_OnPostPlayerLeave ORIG_OnPostPlayerLeave = NULL;
 float g_GetWindowXoffset;
 float g_GetWindowYoffset;
 bool g_WidescreenFix = false;
@@ -138,6 +140,20 @@ int __fastcall HOOKED_SetGameAreaFOV(Matrix1* a1, int a2, float a3, float a4, fl
 	return 0;
 }
 
+int __fastcall HOOKED_NetEventGameStart(int a1)
+{
+	gDiscordRPC.SetGameState(INGAME);
+
+	return ORIG_NetEventGameStart(a1);
+}
+
+int __fastcall HOOKED_OnPostPlayerLeave(int a1)
+{
+	gDiscordRPC.SetGameState(INMENU);
+
+	return ORIG_OnPostPlayerLeave(a1);
+}
+
 void HookOpenGL()
 {
     g_lpOpenGL32 = GetModuleHandleA("opengl32.dll");
@@ -177,18 +193,28 @@ void HookEngine()
 		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_WC3MessageBox),
 									reinterpret_cast<void*>(HOOKED_WC3MessageBox));
 
+		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_NetEventGameStart),
+									reinterpret_cast<void*>(HOOKED_NetEventGameStart));
+
+		MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_OnPostPlayerLeave),
+									reinterpret_cast<void*>(HOOKED_OnPostPlayerLeave));
+
 		int status;
 
 		SPTFind(SetGameAreaFOV);
 		CreateHook(GameDLL, SetGameAreaFOV);
 		SPTFind(WC3MessageBox);
 		CreateHook(GameDLL, WC3MessageBox);
+		SPTFind(NetEventGameStart);
+		CreateHook(GameDLL, NetEventGameStart);
+		SPTFind(OnPostPlayerLeave);
+		CreateHook(GameDLL, OnPostPlayerLeave);
 
 		MH_EnableHook(MH_ALL_HOOKS);
 	}
 }
 
-void CheckForDirect3D() // TODO: implement - keyboardcrash
+void CheckForDirect3D()
 {
 	HANDLE d3d8 = GetModuleHandleA("d3d8.dll");
 	if (d3d8)

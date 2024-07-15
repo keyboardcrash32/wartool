@@ -58,6 +58,8 @@ struct Matrix1 // Matrix 4x4
 #define GETWINDOWYOFFSET_OFFSET 0xADE918
 
 typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4, float a5, float a6);
+typedef int(__fastcall* _NetEventGameStart)(int a1);
+typedef int(__fastcall* _OnPostPlayerLeave)(int a1);
 
 // Discord RPC
 #define PLAYERSINGAME_OFFSET 0xAB4E08

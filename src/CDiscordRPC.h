@@ -45,7 +45,6 @@ public:
 public:
     void Init();
     void SetGameState(GameStateEnum gameState);
-    void SetPartySize(int partySize);
     void updateDiscordPresence(DiscordRichPresence& discordPresence);
 
 private:

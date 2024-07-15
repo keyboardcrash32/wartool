@@ -32,7 +32,7 @@ void CImguiMgr::Draw()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
 
-	if (ImGui::IsKeyPressed(ImGuiKey_Insert))
+	if (ImGui::IsKeyPressed(ImGuiKey_Home))
 		m_showMainMenu = !m_showMainMenu;
 
 	if (m_showMainMenu)

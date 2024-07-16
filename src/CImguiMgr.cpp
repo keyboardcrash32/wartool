@@ -2,7 +2,7 @@
 
 CImguiMgr::CImguiMgr()
 {
-	
+    
 }
 
 CImguiMgr::~CImguiMgr()
@@ -12,51 +12,48 @@ CImguiMgr::~CImguiMgr()
 
 void CImguiMgr::Init(HWND hWnd)
 {
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
 
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 
-	ImGui_ImplOpenGL3_Init();
-	ImGui_ImplWin32_Init(hWnd);
+    ImGui_ImplOpenGL3_Init();
+    ImGui_ImplWin32_Init(hWnd);
 
-	ImGui::StyleColorsDark();
+    ImGui::StyleColorsDark();
 
-	mainMenu.Init();
+    mainMenu.Init();
 }
 
 void CImguiMgr::Draw()
 {
-	ImGui_ImplWin32_NewFrame();
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui::NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui::NewFrame();
 
-	if (ImGui::IsKeyPressed(ImGuiKey_Home))
-		m_showMainMenu = !m_showMainMenu;
+	/*if (ImGui::IsKeyPressed(ImGuiKey_Insert))
+		showMainMenu = !showMainMenu;*/
 
-	if (m_showMainMenu)
-		mainMenu.Draw();
+    if (g_bShowMainMenu)
+        mainMenu.Draw();
 
-	ImGuiIO& io = ImGui::GetIO();
-	io.MouseDrawCursor = io.WantCaptureMouse;
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseDrawCursor = io.WantCaptureMouse;
 
-	/*glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());*/
-	m_drawCalled = true;
+    m_drawCalled = true;
 }
 
 void CImguiMgr::End()
 {
-	if (m_drawCalled) // just to prevent annoying errors
-	{
-		ImGui::EndFrame();
+    if (m_drawCalled) // just to prevent annoying errors
+    {
+        ImGui::EndFrame();
 
-		glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		m_drawCalled = false;
-	}
+        m_drawCalled = false;
+    }
 }

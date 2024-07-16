@@ -2,31 +2,31 @@
 
 std::string WC3MessageBoxFormatType(int type)
 {
-	std::string str;
+    std::string str;
 
-	switch (type)
-	{
-	case WC3MB_WARN:
-		str = "WC3MB_WARN";
-		break;
-	case WC3MB_ERROR:
-		str = "WC3MB_ERROR";
-		break;
-	case WC3MB_QUESTION:
-		str = "WC3MB_QUESTION";
-		break;
-	default:
-		str = "Unknown: " + type;
-		break;
-	}
+    switch (type)
+    {
+    case WC3MB_WARN:
+        str = "WC3MB_WARN";
+        break;
+    case WC3MB_ERROR:
+        str = "WC3MB_ERROR";
+        break;
+    case WC3MB_QUESTION:
+        str = "WC3MB_QUESTION";
+        break;
+    default:
+        str = "Unknown: " + type;
+        break;
+    }
 
-	return str;
+    return str;
 }
 
 void __fastcall HOOKED_WC3MessageBox(int type, const char* string, int a3, int a4, int a5, int a6, int a7)
 {
-	// TODO: print wide string (since players can have different languages) - keyboardcrash
-	printf("[GameDLL] WC3MessageBox (%s): %s\n", WC3MessageBoxFormatType(type).c_str(), string);
+    // TODO: print wide string (since players can have different languages) - keyboardcrash
+    printf("[GameDLL] WC3MessageBox (%s): %s\n", WC3MessageBoxFormatType(type).c_str(), string);
 
-	ORIG_WC3MessageBox(type, string, a3, a4, a5, a6, a7);
+    ORIG_WC3MessageBox(type, string, a3, a4, a5, a6, a7);
 }

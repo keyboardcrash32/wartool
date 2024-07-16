@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 2024 keyboardcrash
+    Copyright (C) 2024 keyboardcrash
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #include "ImGuiIncludes.h"
 #include "CMainMenu.h"
 
+extern bool g_bShowMainMenu;
+
 class CImguiMgr
 {
 public:
@@ -35,10 +37,10 @@ public:
     void End();
 
     CMainMenu mainMenu;
+    bool showMainMenu = false;
 
 private:
     bool m_drawCalled = false;
-    bool m_showMainMenu = false;
 };
 
 #endif // CIMGUIMGR_H_INCLUDED

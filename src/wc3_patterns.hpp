@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 2024 keyboardcrash
+    Copyright (C) 2024 keyboardcrash
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,19 +31,19 @@ namespace patterns
         );
 
         PATTERNS(WC3MessageBox,
-			"Pre-1.29",
-			"56 57 8B FA 85 FF 8B F1 0F 84 ?? ?? ?? ?? A1 ?? ?? ?? ??"
-		);
+            "Pre-1.29",
+            "56 57 8B FA 85 FF 8B F1 0F 84 ?? ?? ?? ?? A1 ?? ?? ?? ??"
+        );
 
-		PATTERNS(OnPostGameStart,
-			"Pre-1.29",
-			"56 8B F1 57 B9 0D 00 00 00 E8 ?? ?? ?? ?? 83 7E ?? 01"
-		);
+        PATTERNS(OnPostGameStart,
+            "Pre-1.29",
+            "56 8B F1 57 B9 0D 00 00 00 E8 ?? ?? ?? ?? 83 7E ?? 01"
+        );
 
-		PATTERNS(OnPostPlayerLeave,
-			"Pre-1.29",
-			"6A FF 68 ?? ?? ?? ?? 64 A1 ?? ?? ?? ?? 50 83 EC 2C 53 55 56 57 A1 ?? ?? ?? ?? 33 C4 50 8D 44 24 ?? 64 A3 ?? ?? ?? ?? 8B F9 B9 0D 00 00 00"
-		);
+        PATTERNS(OnPostPlayerLeave,
+            "Pre-1.29",
+            "6A FF 68 ?? ?? ?? ?? 64 A1 ?? ?? ?? ?? 50 83 EC 2C 53 55 56 57 A1 ?? ?? ?? ?? 33 C4 50 8D 44 24 ?? 64 A3 ?? ?? ?? ?? 8B F9 B9 0D 00 00 00"
+        );
     }
 }
 

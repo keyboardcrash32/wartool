@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 2024 keyboardcrash
+    Copyright (C) 2024 keyboardcrash
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,22 +35,22 @@ typedef LRESULT(APIENTRY* _WndProc)(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 #pragma pack(push, 1)
 struct Matrix1 // Matrix 4x4
 {
-	float flt1;  // 0
-	float flt2;  // 4
-	float flt3;  // 8
-	float flt4;  // 12
-	float flt5;  // 16
-	float flt6;  // 20
-	float flt7;  // 24
-	float flt8;  // 28
-	float flt9;  // 32
-	float flt10; // 36
-	float flt11; // 40
-	float flt12; // 44
-	float flt13; // 48
-	float flt14; // 52
-	float flt15; // 56
-	float flt16; // 60
+    float flt1;  // 0
+    float flt2;  // 4
+    float flt3;  // 8
+    float flt4;  // 12
+    float flt5;  // 16
+    float flt6;  // 20
+    float flt7;  // 24
+    float flt8;  // 28
+    float flt9;  // 32
+    float flt10; // 36
+    float flt11; // 40
+    float flt12; // 44
+    float flt13; // 48
+    float flt14; // 52
+    float flt15; // 56
+    float flt16; // 60
 };
 #pragma pack(pop, 1)
 
@@ -79,14 +79,14 @@ typedef int(__fastcall* _OnPostPlayerLeave)(int a1);
 
 
 #define SPTFind(future_name)                                                                                                               \
-	{                                                                                                                                      \
-		auto f##future_name = utils.FindAsync(ORIG_##future_name, patterns::engine::future_name);                                          \
-		auto pattern = f##future_name.get();                                                                                               \
-		if (ORIG_##future_name)                                                                                                            \
-		{                                                                                                                                  \
-			printf("[GameDLL] Found " #future_name " at %p (using the %s pattern).\n", ORIG_##future_name, pattern->name()); \
-		}                                                                                                                                  \
-	}
+    {                                                                                                                                      \
+        auto f##future_name = utils.FindAsync(ORIG_##future_name, patterns::engine::future_name);                                          \
+        auto pattern = f##future_name.get();                                                                                               \
+        if (ORIG_##future_name)                                                                                                            \
+        {                                                                                                                                  \
+            printf("[GameDLL] Found " #future_name " at %p (using the %s pattern).\n", ORIG_##future_name, pattern->name()); \
+        }                                                                                                                                  \
+    }
 
 #define MakePtr(a, b) (DWORD)((DWORD)a + (DWORD)b)
 

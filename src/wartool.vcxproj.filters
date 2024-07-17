@@ -37,6 +37,9 @@
     <Filter Include="SPTLib">
       <UniqueIdentifier>{abafb920-4d5f-4087-b2b0-23501d3172fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="stb_image">
+      <UniqueIdentifier>{93b1ad20-5d96-43fc-b1d5-f98dd9569b3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\external\imgui\imconfig.h">
@@ -254,6 +257,12 @@
     </ClInclude>
     <ClInclude Include="MessageBox.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\stb_image\stb_image.h">
+      <Filter>stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\stb_image\stb_image_write.h">
+      <Filter>stb_image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

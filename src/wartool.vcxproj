@@ -83,6 +83,8 @@
     <ClInclude Include="..\external\SPTLib\patterns_macros.hpp" />
     <ClInclude Include="..\external\SPTLib\sptlib-stdafx.hpp" />
     <ClInclude Include="..\external\SPTLib\Utils.hpp" />
+    <ClInclude Include="..\external\stb_image\stb_image.h" />
+    <ClInclude Include="..\external\stb_image\stb_image_write.h" />
     <ClInclude Include="CDiscordRPC.h" />
     <ClInclude Include="CImguiMenu.h" />
     <ClInclude Include="CImguiMgr.h" />
@@ -176,13 +178,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.mix</TargetExt>
-    <IncludePath>..\external\SPTLib;..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
+    <IncludePath>..\external\stb_image;..\external\SPTLib;..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
     <OutDir>$(Configuration)\</OutDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.mix</TargetExt>
-    <IncludePath>..\external\SPTLib;..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
+    <IncludePath>..\external\stb_image;..\external\SPTLib;..\external\discord-rpc;..\external\MinHook;..\external\imgui</IncludePath>
     <OutDir>$(Configuration)\</OutDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>

@@ -14,6 +14,7 @@ _SetGameAreaFOV ORIG_SetGameAreaFOV = NULL;
 _WC3MessageBox ORIG_WC3MessageBox = NULL;
 _OnPostGameStart ORIG_OnPostGameStart = NULL;
 _OnPostPlayerLeave ORIG_OnPostPlayerLeave = NULL;
+_TakeScreenshot ORIG_TakeScreenshot = NULL;
 float g_GetWindowXoffset;
 float g_GetWindowYoffset;
 bool g_WidescreenFix = false;
@@ -30,6 +31,8 @@ CImguiMgr gImGui;
 CDiscordRPC gDiscordRPC;
 HWND gHwnd;
 
+void TakeScreenshot();
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 inline long __stdcall HOOKED_WndProc(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -37,9 +40,15 @@ inline long __stdcall HOOKED_WndProc(const HWND hWnd, UINT msg, WPARAM wParam, L
 
     if (msg == WM_KEYDOWN)
     {
-        if (wParam == VK_INSERT)
+        switch (wParam)
         {
+        case VK_INSERT:
             g_bShowMainMenu = !g_bShowMainMenu;
+            break;
+
+        case VK_HOME:
+            TakeScreenshot();
+            break;
         }
     }
 
@@ -177,6 +186,78 @@ int __fastcall HOOKED_OnPostPlayerLeave(int a1)
     return ORIG_OnPostPlayerLeave(a1);
 }
 
+int __fastcall HOOKED_TakeScreenshot(int a1, char* a2, int a3, DWORD a4, int a5, float a6,
+                                    int a7, int a8, int a9, int a10, float a11, float a12)
+{
+    if (!gImGui.mainMenu.PNGScreenshots)
+        return ORIG_TakeScreenshot(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
+
+    return 0;
+}
+
+void TakeScreenshot() // TODO: fix - keyboardcrash
+{
+    if (!gImGui.mainMenu.PNGScreenshots)
+        return;
+
+    RECT windowRect;
+    if (!GetClientRect(gHwnd, &windowRect))
+    {
+        printf("Cannot get window rectangle (GetClientRect failure)\n");
+        return;
+    }
+
+    int windowWidth = windowRect.right - windowRect.left;
+    int windowHeight = windowRect.bottom - windowRect.top;
+
+    uint8_t* pixels = new uint8_t[windowWidth * windowHeight * RGB_COLORS];
+
+    HDC hScreenDC = GetDC(gHwnd);
+    HDC hMemoryDC = CreateCompatibleDC(hScreenDC);
+
+    BITMAPINFO bmi = { 0 };
+    bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
+    bmi.bmiHeader.biWidth = GetDeviceCaps(hScreenDC, HORZRES);
+    bmi.bmiHeader.biHeight = -GetDeviceCaps(hScreenDC, VERTRES);
+    bmi.bmiHeader.biPlanes = 1;
+    bmi.bmiHeader.biBitCount = 32;
+    HBITMAP hBitmap = CreateDIBSection(hMemoryDC, &bmi, DIB_RGB_COLORS, (LPVOID*)&pixels, NULL, 0);
+
+    HGDIOBJ hOldBitmap = SelectObject(hMemoryDC, hBitmap);
+
+    BitBlt(hMemoryDC, 0, 0, bmi.bmiHeader.biWidth, -bmi.bmiHeader.biHeight, hScreenDC, 0, 0, SRCCOPY);
+
+    int lineSize = windowWidth * RGB_COLORS;
+    uint8_t* line = new uint8_t[lineSize];
+
+    for (int y = 0; y < windowHeight / 2; y++)
+    {
+        int topOffset = y * lineSize;
+        int bottomOffset = (windowHeight - y - 1) * lineSize;
+        memcpy(line, &pixels[topOffset], lineSize);
+        memcpy(&pixels[topOffset], &pixels[bottomOffset], lineSize);
+        memcpy(&pixels[bottomOffset], line, lineSize);
+    }
+
+    std::string filename = "scrnsht.png";
+    int result = stbi_write_png(filename.c_str(), windowWidth, windowHeight, RGB_COLORS, pixels, windowWidth * RGB_COLORS);
+    if (result == 1)
+    {
+        printf("Took a screenshot %s\n", filename.c_str());
+    }
+    else
+    {
+        printf("Failed to take a screenshot %s (%d)\n", filename.c_str(), result);
+    }
+
+    SelectObject(hMemoryDC, hOldBitmap);
+    DeleteDC(hMemoryDC);
+    ReleaseDC(gHwnd, hScreenDC);
+    DeleteObject(hBitmap);
+    //delete[] pixels;
+    delete[] line;
+}
+
 void HookOpenGL()
 {
     g_lpOpenGL32 = GetModuleHandleA("opengl32.dll");
@@ -222,6 +303,9 @@ void HookEngine()
         MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_OnPostPlayerLeave),
                                     reinterpret_cast<void*>(HOOKED_OnPostPlayerLeave));
 
+        MemUtils::AddSymbolLookupHook(handle, reinterpret_cast<void*>(ORIG_TakeScreenshot),
+                                    reinterpret_cast<void*>(HOOKED_TakeScreenshot));
+
         int status;
 
         SPTFind(SetGameAreaFOV);
@@ -232,6 +316,8 @@ void HookEngine()
         CreateHook(GameDLL, OnPostGameStart);
         SPTFind(OnPostPlayerLeave);
         CreateHook(GameDLL, OnPostPlayerLeave);
+        SPTFind(TakeScreenshot);
+        CreateHook(GameDLL, TakeScreenshot);
 
         MH_EnableHook(MH_ALL_HOOKS);
     }

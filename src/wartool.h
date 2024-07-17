@@ -24,6 +24,8 @@
 #include <gl/gl.h>
 #include "Utils.hpp"
 #include "wc3_patterns.hpp" // must be included after Utils.hpp
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
 // OpenGL
 typedef int(__stdcall* _wglSwapLayerBuffers)(HDC, UINT);
@@ -60,6 +62,8 @@ struct Matrix1 // Matrix 4x4
 typedef int(__fastcall* _SetGameAreaFOV)(Matrix1* a1, int a2, float a3, float a4, float a5, float a6);
 typedef int(__fastcall* _OnPostGameStart)(int a1);
 typedef int(__fastcall* _OnPostPlayerLeave)(int a1);
+typedef int(__fastcall* _TakeScreenshot)(int a1, char* a2, int a3, DWORD a4, int a5, float a6, 
+                                        int a7, int a8, int a9, int a10, float a11, float a12);
 
 // Discord RPC
 #define PLAYERSINGAME_OFFSET 0xAB4E08
@@ -89,5 +93,7 @@ typedef int(__fastcall* _OnPostPlayerLeave)(int a1);
     }
 
 #define MakePtr(a, b) (DWORD)((DWORD)a + (DWORD)b)
+
+#define RGB_COLORS 3
 
 #endif // WARTOOL_H_INCLUDED

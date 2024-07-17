@@ -52,7 +52,7 @@ char* GetGameBuildVersion()
 void CMainMenu::Init()
 {
     m_gameBuildVersion = GetGameBuildVersion();
-    printf("Warcraft build version: %s\n", m_gameBuildVersion.c_str());
+    printf("[GameDLL] Warcraft build version: %s\n", m_gameBuildVersion.c_str());
 }
 
 void CMainMenu::Draw()
@@ -66,7 +66,7 @@ void CMainMenu::Draw()
     ImGui::Checkbox("Widescreen Fix", &widescreenFix);
     ImGui::SliderFloat("Custom FOV fix", &g_CustomFovFix, 0.1f, 5.0f);
 
-    ImGui::Checkbox("Save screenshots in .png (NOT IMPLEMENTED)", &PNGScreenshots);
+    ImGui::Checkbox("Save screenshots in .png", &PNGScreenshots);
 
     ImGui::End();
     ImGui::PopStyleColor();

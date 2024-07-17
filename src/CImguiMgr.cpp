@@ -32,9 +32,6 @@ void CImguiMgr::Draw()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
 
-	/*if (ImGui::IsKeyPressed(ImGuiKey_Insert))
-		showMainMenu = !showMainMenu;*/
-
     if (g_bShowMainMenu)
         mainMenu.Draw();
 
